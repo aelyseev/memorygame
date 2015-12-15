@@ -3,6 +3,11 @@
 		"browser": true
 	},
 
+	"globals": {
+		"require": false,
+		"module": true
+	},
+
 	"rules": {
 		// http://eslint.org/docs/rules/strict
 		"strict": [2, "function"],

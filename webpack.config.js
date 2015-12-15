@@ -3,6 +3,8 @@
  * @date 14/12/15
  */
 
+/* eslint-disable */
+
 var DEV = 'dev';
 var PROD = 'prod';
 
@@ -15,7 +17,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
 	context: __dirname + '/app',
 	entry: {
-		app: './app'
+		index: './app'
 	},
 	output: {
 		path: __dirname + '/public',

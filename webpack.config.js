@@ -17,7 +17,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
 	context: __dirname + '/app',
 	entry: {
-		index: './app'
+		main: './main'
 	},
 	output: {
 		path: __dirname + '/public',
@@ -34,15 +34,23 @@ module.exports = {
 	},
 
 	module: {
-
 		loaders: [
 			{
 				test: /\.styl$/,
 				loader: ExtractTextPlugin.extract('style', 'css!stylus?resolve-url')
 			},
 			{
+				test: /\.less$/,
+				loader: ExtractTextPlugin.extract('style', 'css!less')
+			},
+			{
 				test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
 				loader: 'file?name=[path][name].[ext]'
+			},
+			{
+				test: /\.html$/,
+				include: /tmpl/,
+				loader: 'html?minimize=true'
 			}
 		],
 
@@ -52,8 +60,9 @@ module.exports = {
 	plugins: [
 		new ExtractTextPlugin('[name].css', {allChunks: true}),
 		new CopyWebpackPlugin([
-			{from: '../node_modules/angular/angular.min.js'},
-			{from: '../node_modules/angular/angular.js'}
+			{from: (mode === DEV) ? '../node_modules/angular/angular.js' : '../node_modules/angular/angular.min.js'},
+			{from: (mode === DEV) ? '../node_modules/angular-route/angular-route.js' :
+				'../node_modules/angular-route/angular-route.min.js'}
 		])
 		//new webpack.HotModuleReplacementPlugin()
 	],

@@ -42,6 +42,10 @@ module.exports = {
 				loader: ExtractTextPlugin.extract('style', 'css!postcss!stylus?resolve-url')
 			},
 			{
+				test: /\.css$/,
+				loader: ExtractTextPlugin.extract('style', 'css?modules')
+			},
+			{
 				test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
 				loader: 'file?name=[path][name].[ext]'
 			},

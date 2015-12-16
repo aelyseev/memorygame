@@ -10,25 +10,8 @@
 	<script defer src="angular-route.js"></script>
 	<script defer src="main.js" type="text/javascript"></script>
 </head>
-<body>
-	<div class="main">
-		<div class="button center">New Game</div>
-		<div class="block center">
-			<div class="block-title">Board sizes</div>
-			<div class="block-options">
-				<span class="block-options-item block-options-item-active">4&times;4</span>
-				<span class="block-options-item block-options-item-active">6&times;6</span>
-				<span class="block-options-item block-options-item-selected">8&times;8</span>
-			</div>
-		</div>
-		<div class="block center">
-			<div class="block-title">Difficulty</div>
-			<div class="block-options">
-				<span class="block-options-item block-options-item-active">2 seconds</span>
-				<span class="block-options-item block-options-item-selected">1 second</span>
-				<span class="block-options-item block-options-item-active">0.5 seconds</span>
-			</div>
-		</div>
-	</div>
+<body ng-controller="BoardController">
+	<div class="button button-game button-centered">New Game</div>
+	<div board ></div>
 </body>
 </html>

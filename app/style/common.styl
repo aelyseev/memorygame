@@ -1,5 +1,16 @@
 body-font = Verdana, Helvetica, Arial, sans-serif
 
+center()
+	position: relative
+	display: flex
+	flex-direction: row
+	margin: 10vh auto
+	width: 600px
+	height: 80vh
+	align-content: center
+	flex-wrap: wrap
+	justify-content: center
+
 body
 	margin: 0
 	padding: 0
@@ -13,12 +24,4 @@ header
 	font: 400 20px / normal body-font
 
 .main
-	position: relative
-	display: flex
-	flex-direction: row
-	margin: 10vh auto
-	width: 600px
-	height: 80vh
-	align-content: center
-	flex-wrap: wrap
-	justify-content: center
+	center()

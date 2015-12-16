@@ -1,0 +1,27 @@
+@require "common.styl"
+
+puzzle-size = 55px
+
+.main
+	background: #f1f1f1
+
+puzzle-color = #00903C
+puzzle-color-shadow = darken(puzzle-color, 30%)
+puzzle-color-shadow-highlight = lightness(hue(puzzle-color, 30deg), 50%)
+
+.puzzle
+	float: left
+	border: 1px solid puzzle-color
+	border-radius: 6px
+	box-sizing: border-box
+	background: puzzle-color url("../images/pattern.svg")
+	background-size: 60% 60%
+	box-shadow: 0 0 8px 1px rgba(puzzle-color-shadow, .4)
+	cursor: pointer
+	transition:  all .2s ease-in-out
+	will-change: transform
+
+	&:hover
+		box-shadow: 0 0 8px 1px rgba(puzzle-color-shadow-highlight, .7)
+
+

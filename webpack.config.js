@@ -69,6 +69,8 @@ module.exports = {
 		//new webpack.HotModuleReplacementPlugin()
 	],
 
+	devtool: 'source-map',
+
 	devServer: {
 		host: 'localhost',
 		port: 8080,

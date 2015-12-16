@@ -8,6 +8,8 @@
 var DEV = 'dev';
 var PROD = 'prod';
 
+var autoprefixer = require('autoprefixer');
+
 var mode = process.env.NODE_ENV || DEV;
 
 var webpack = require('webpack');
@@ -37,11 +39,7 @@ module.exports = {
 		loaders: [
 			{
 				test: /\.styl$/,
-				loader: ExtractTextPlugin.extract('style', 'css!stylus?resolve-url')
-			},
-			{
-				test: /\.less$/,
-				loader: ExtractTextPlugin.extract('style', 'css!less')
+				loader: ExtractTextPlugin.extract('style', 'css!postcss!stylus?resolve-url')
 			},
 			{
 				test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
@@ -55,6 +53,10 @@ module.exports = {
 		],
 
 		noParse: /angular\/angular/
+	},
+
+	postcss: function () {
+		return [autoprefixer({browsers: ['> 5%', 'IE > 9'], cascade: false})]
 	},
 
 	plugins: [

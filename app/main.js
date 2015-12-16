@@ -7,6 +7,11 @@ var app = require('./js/app');
 
 require('./style/menu.styl');
 require('./style/board.styl');
+require('./js/color-generator');
+
+var iconStyles = require('./images/icons.css');
+
+console.log(iconStyles);
 
 app.constant('puzzleMetrics', {
 	size: 55,
@@ -22,7 +27,7 @@ app.factory('settings', [function () {
 	};
 }]);
 
-app.directive('board', ['$timeout', function ($timeout) {
+app.directive('board', ['$timeout', 'colorGenerator', function ($timeout, colorGenerator) {
 	'use strict';
 	return {
 		restrict: 'A',
@@ -41,16 +46,12 @@ app.directive('board', ['$timeout', function ($timeout) {
 	};
 }]);
 
-app.directive('puzzle', [function () {
+app.directive('puzzle', ['colorGenerator', function () {
 	'use strict';
 	return {
 		restrict: 'A',
 		replace: true,
-		scope: true,
-		template: require('./tmpl/puzzle.html'),
-		link: function (scope, element, attrs) {
-			console.log(element.style);
-		}
+		template: require('./tmpl/puzzle.html')
 	};
 }]);
 

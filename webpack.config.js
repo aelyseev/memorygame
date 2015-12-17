@@ -43,7 +43,7 @@ module.exports = {
 			},
 			{
 				test: /\.css$/,
-				loader: ExtractTextPlugin.extract('style', 'css?modules')
+				loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[hash:base64:6]')
 			},
 			{
 				test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,

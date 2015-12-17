@@ -4,14 +4,17 @@
  */
 
 var app = require('./js/app');
-
-require('./style/menu.styl');
-require('./style/board.styl');
-require('./js/color-generator');
-
 var iconStyles = require('./images/icons.css');
 
-console.log(iconStyles);
+// config
+require('./js/config');
+require('./js/game');
+
+// controllers
+require('./js/controllers/menu');
+
+require('./style/index.styl');
+require('./js/color-generator');
 
 app.constant('puzzleMetrics', {
 	size: 55,
@@ -27,7 +30,7 @@ app.factory('settings', [function () {
 	};
 }]);
 
-app.directive('board', ['$timeout', 'colorGenerator', function ($timeout, colorGenerator) {
+app.directive('board', ['$timeout', 'game', function ($timeout, game) {
 	'use strict';
 	return {
 		restrict: 'A',
@@ -39,6 +42,7 @@ app.directive('board', ['$timeout', 'colorGenerator', function ($timeout, colorG
 		},
 		template: require('./tmpl/board.html'),
 		link: function (scope, element) {
+			console.log(game);
 			$timeout(function () {
 				element.removeClass('board-initial');
 			}, 50);
@@ -73,33 +77,6 @@ app.controller('MainController', function ($scope, $route, $routeParams, $locati
 	$scope.$location = $location;
 	$scope.$routeParams = $routeParams;
 });
-
-app.config(function ($routeProvider, $locationProvider) {
-	'use strict';
-
-	$routeProvider
-		.when('/', {
-			template: require('./tmpl/menu.html'),
-			controller: 'BoardController',
-			resolve: {
-				delay: function ($q, $timeout) {
-					var delay = $q.defer();
-					$timeout(delay.reject, 1000);
-					return delay.promise;
-				}
-			}
-		})
-		.when('/game', {
-			template: require('./tmpl/game.html'),
-			game: false,
-			controller: 'BoardController'
-		})
-		.otherwise({
-			redirectTo: '/'
-		})
-		;
-});
-
 
 app.run(['$location', '$rootScope', function ($location, $rootScope) {
 	'use strict';

@@ -4,11 +4,11 @@
  */
 
 var app = require('../app');
-require('../puzzle/puzzle');
+var boardUrl = require('./board.tmpl.html');
 
-var boardUrl = require('./board.html');
+require('./puzzle');
 
-app.directive('board', ['$timeout', 'game', function ($timeout, game) {
+app.directive('board', [function () {
 	'use strict';
 
 	return {
@@ -19,12 +19,6 @@ app.directive('board', ['$timeout', 'game', function ($timeout, game) {
 			puzzles: '=',
 			metrics: '='
 		},
-		templateUrl: boardUrl,
-		link: function (scope, element) {
-			console.log(game);
-			$timeout(function () {
-				element.removeClass('board-initial');
-			}, 50);
-		}
+		templateUrl: boardUrl
 	};
 }]);

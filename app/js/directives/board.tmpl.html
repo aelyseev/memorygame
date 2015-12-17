@@ -1,4 +1,6 @@
-<div class="board board-initial" ng-style="{width: size + 'px'}"
-		 size="boardSize" puzzles="puzzles" metrics="puzzle">
-	<div puzzle ng-repeat="i in puzzles track by $index"></div>
+<div size="boardSize" puzzles="puzzles" metrics="puzzle">
+	<div class="button button-game button-centered">New Game</div>
+	<div class="board board-initial" ng-style="{width: size + 'px'}">
+		<div puzzle ng-repeat="i in puzzles track by $index"></div>
+	</div>
 </div>

@@ -4,9 +4,16 @@
  */
 
 var app = require('../app');
+require('../directives/board');
 
-app.controller('BoardController', ['$scope', function ($scope) {
+app.controller('GameController', ['$scope', 'settings', 'puzzleMetrics', function ($scope, Settings, puzzle) {
 	'use strict';
 
-	$scope.name = 'Board';
+	var size = Number(Settings.size[0]);
+
+	$scope.puzzle = puzzle;
+	$scope.boardSize = size * puzzle.size + (2 * puzzle.space * size);
+	$scope.puzzles = Array.apply(null, new Array(size * size)).map(function (v, i) {
+		return i + 1;
+	});
 }]);

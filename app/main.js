@@ -8,10 +8,12 @@ var iconStyles = require('./images/icons.css');
 
 // config
 require('./js/config');
-require('./js/game');
 
 // controllers
-require('./js/controllers/menu');
+require('./js/menu/controller');
+require('./js/game/controller');
+
+// directives
 
 require('./style/index.styl');
 require('./js/color-generator');
@@ -27,35 +29,6 @@ app.factory('settings', [function () {
 	return {
 		difficulty: '2s',
 		size: '6×6'
-	};
-}]);
-
-app.directive('board', ['$timeout', 'game', function ($timeout, game) {
-	'use strict';
-	return {
-		restrict: 'A',
-		replace: true,
-		scope: {
-			size: '=',
-			puzzles: '=',
-			metrics: '='
-		},
-		template: require('./tmpl/board.html'),
-		link: function (scope, element) {
-			console.log(game);
-			$timeout(function () {
-				element.removeClass('board-initial');
-			}, 50);
-		}
-	};
-}]);
-
-app.directive('puzzle', ['colorGenerator', function () {
-	'use strict';
-	return {
-		restrict: 'A',
-		replace: true,
-		template: require('./tmpl/puzzle.html')
 	};
 }]);
 

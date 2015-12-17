@@ -4,9 +4,8 @@
  */
 
 var app = require('./app');
-
-var menuUrl = require('../tmpl/menu.html');
-var gameUrl = require('../tmpl/game.html');
+var menuUrl = require('./menu/view.tmpl.html');
+var gameUrl = require('./game/view.tmpl.html');
 
 app.config(['$localStorageProvider', function ($localStorageProvider) {
 		'use strict';
@@ -22,7 +21,7 @@ app.config(['$localStorageProvider', function ($localStorageProvider) {
 				controller: 'MenuController'
 			})
 			.when('/game', {
-				template: gameUrl,
+				templateUrl: gameUrl,
 				game: false,
 				controller: 'GameController'
 			})

@@ -50,8 +50,7 @@ module.exports = {
 				loader: 'file?name=[path][name].[ext]'
 			},
 			{
-				test: /\.html$/,
-				include: /tmpl/,
+				test: /tmpl\.html$/,
 				loader: 'ngtemplate?relativeTo=' + __dirname +'!html?minimize=true'
 			}
 		],

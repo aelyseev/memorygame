@@ -33,9 +33,9 @@ app.directive('board', ['$timeout', 'colorGenerator', function ($timeout, colorG
 		restrict: 'A',
 		replace: true,
 		scope: {
-			boardSize: '=size',
+			size: '=',
 			puzzles: '=',
-			puzzle: '=metrics'
+			metrics: '='
 		},
 		template: require('./tmpl/board.html'),
 		link: function (scope, element) {

@@ -52,7 +52,7 @@ module.exports = {
 			{
 				test: /\.html$/,
 				include: /tmpl/,
-				loader: 'html?minimize=true'
+				loader: 'ngtemplate?relativeTo=' + __dirname +'!html?minimize=true'
 			}
 		],
 

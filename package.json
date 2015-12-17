@@ -18,8 +18,8 @@
     "file-loader": "^0.8.5",
     "handlebars": "^4.0.5",
     "html-loader": "^0.4.0",
-    "ng-cache-loader": "0.0.14",
     "ngstorage": "^0.3.10",
+    "ngtemplate-loader": "^1.3.1",
     "postcss-loader": "^0.8.0",
     "style-loader": "^0.13.0",
     "stylus-loader": "^1.4.2"

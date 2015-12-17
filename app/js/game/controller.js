@@ -4,6 +4,9 @@
  */
 
 var app = require('../app');
+
+// directives
+require('../directives/menu-button');
 require('../directives/board');
 
 app.controller('GameController', ['$scope', 'settings', 'puzzleMetrics', function ($scope, Settings, puzzle) {

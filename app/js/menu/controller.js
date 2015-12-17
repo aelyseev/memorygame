@@ -6,7 +6,7 @@
 var app = require('../app');
 
 // new button
-require('../directives/new-game');
+require('../directives/menu-button');
 
 app.controller('MenuController', ['$scope', '$location', function ($scope, $location) {
 	'use strict';

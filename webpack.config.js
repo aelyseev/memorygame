@@ -68,7 +68,8 @@ module.exports = {
 		new CopyWebpackPlugin([
 			{from: (mode === DEV) ? '../node_modules/angular/angular.js' : '../node_modules/angular/angular.min.js'},
 			{from: (mode === DEV) ? '../node_modules/angular-route/angular-route.js' :
-				'../node_modules/angular-route/angular-route.min.js'}
+				'../node_modules/angular-route/angular-route.min.js'},
+			{from: '../node_modules/ngstorage/ngstorage.min.js'}
 		])
 		//new webpack.HotModuleReplacementPlugin()
 	],

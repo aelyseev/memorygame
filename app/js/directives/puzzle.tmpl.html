@@ -1,2 +1,7 @@
 <div class="puzzle"
-		 ng-style="{width: metrics.size + 'px', height: metrics.size + 'px', margin: metrics.space + 'px'}"></div>
+		 ng-style="{
+			 'width': metrics.size + 'px',
+			 'height': metrics.size + 'px',
+			 'margin': metrics.space + 'px',
+			 'background-image': puzzles[$index].icon
+		 }"></div>

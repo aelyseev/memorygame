@@ -1,7 +1,5 @@
 <div class="puzzle"
-		 ng-style="{
-			 'width': metrics.size + 'px',
-			 'height': metrics.size + 'px',
-			 'margin': metrics.space + 'px',
-			 'background-image': puzzles[$index].icon
-		 }"></div>
+		 data-id="{{::puzzles[$index].id}}"
+		 ng-class="puzzles[$index].classes"
+		 style="{{::metricsStyle}}"
+		 ng-style="{'background-image': puzzles[$index].open ? puzzles[$index].icon : ''}"></div>

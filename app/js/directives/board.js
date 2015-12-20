@@ -90,24 +90,31 @@ app.directive('board', ['settings', 'puzzleMetrics', function (Settings, metrics
 				metricsStyle: 'width:' + metrics.size + 'px; height: ' + metrics.size + 'px; margin: ' + metrics.space + 'px',
 				opened: [],
 
-				updateOnState: function (id, isForced) {
-					var puzzle = scope.puzzles[id];
-					var state = puzzle.open || puzzle.solved;
-					var rotated = puzzle.classes['puzzle-r90'];
+				update: function (ids, isForced) {
+					[].concat(ids).forEach(function (id) {
+						var puzzle = scope.puzzles[id];
+						var state = puzzle.open || puzzle.solved;
+						var rotated = puzzle.classes['puzzle-r90'];
 
-					puzzle.classes = angular.extend({}, puzzle.classes, {
-						'puzzle-front': state,
-						'puzzle-back': !state,
-						'puzzle-r0': state && !rotated,
-						'puzzle-r180': !state && !rotated,
-						'puzzle-delayed': isForced
+						puzzle.classes = angular.extend({}, puzzle.classes, {
+							'puzzle-front': state,
+							'puzzle-back': !state,
+							'puzzle-r0': state && !rotated,
+							'puzzle-r180': !state && !rotated,
+							'puzzle-delayed': isForced
+						});
 					});
+
 					scope.$apply();
 				},
 
 				animationStep: function (id, isClick, isForced) {
 					var puzzle = scope.puzzles[id];
 					var classes = puzzle.classes;
+
+					if (puzzle.solved) {
+						return;
+					}
 
 					if (isClick || isForced) {
 						puzzle.cycleFinished = false;
@@ -129,11 +136,12 @@ app.directive('board', ['settings', 'puzzleMetrics', function (Settings, metrics
 						}
 					}
 
-					scope.updateOnState(id, isForced);
+					scope.update([id], isForced);
 				},
 
 				check: function (id) {
 					var pairId = scope.puzzles[id].pair;
+					var ids = scope.opened.slice(0);
 					if (scope.puzzles[pairId].open) {
 						scope.puzzles[pairId].solve = scope.puzzles[id].solve = false;
 						scope.opened = [];
@@ -142,7 +150,7 @@ app.directive('board', ['settings', 'puzzleMetrics', function (Settings, metrics
 							scope.animationStep(i, null, true);
 						});
 					}
-					scope.updateOnState(id);
+					scope.update(ids, true);
 				}
 			});
 		}

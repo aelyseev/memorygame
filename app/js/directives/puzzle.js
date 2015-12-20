@@ -19,8 +19,9 @@ app.directive('puzzle', ['$window', function ($window) {
 				if (e.propertyName !== 'transform') {
 					return;
 				}
-
-				scope.animationStep(attrs.id);
+				$window.requestAnimationFrame(function () {
+					scope.animationStep(attrs.id);
+				});
 			});
 
 			element.on('click', function () {

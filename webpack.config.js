@@ -42,10 +42,6 @@ module.exports = {
 				loader: ExtractTextPlugin.extract('style', 'css!postcss!stylus?resolve-url')
 			},
 			{
-				test: /\.css$/,
-				loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[hash:base64:6]')
-			},
-			{
 				test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
 				loader: 'file?name=[path][name].[ext]'
 			},
@@ -70,7 +66,6 @@ module.exports = {
 				'../node_modules/angular-route/angular-route.min.js'},
 			{from: '../node_modules/ngstorage/ngstorage.min.js'}
 		])
-		//new webpack.HotModuleReplacementPlugin()
 	],
 
 	devtool: 'source-map',

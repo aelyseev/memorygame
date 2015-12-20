@@ -3,6 +3,8 @@
 
 puzzle-size = 55px
 
+puzzle = '.puzzle'
+
 .board
 	center()
 
@@ -10,19 +12,36 @@ puzzle-color = #00903C
 puzzle-color-shadow = darken(puzzle-color, 30%)
 puzzle-color-shadow-highlight = lightness(hue(puzzle-color, 30deg), 50%)
 
-.puzzle
-	float: left
+{puzzle}
 	border: 1px solid puzzle-color
 	border-radius: 6px
 	box-sizing: border-box
-	background: puzzle-color url("../images/pattern.svg")
-	background-size: 60% 60%
-	box-shadow: 0 0 8px 1px rgba(puzzle-color-shadow, .4)
 	cursor: pointer
-	transition:  all .2s ease-in-out
+	transition:  box-shadow 200ms ease-in-out, transform 200ms ease-in-out
 	will-change: transform
 
-	&:hover
-		box-shadow: 0 0 8px 1px rgba(puzzle-color-shadow-highlight, .7)
+	&-front
+		background: transparent no-repeat center center
+		background-size: 70% 70%
+
+	&-r0
+		transform: rotate3d(0, 1, 0, 0deg)
+
+	&-r90
+		transform: rotate3d(0, 1, 0, 90deg)
+
+	&-delayed
+		transition-delay: 300ms
+
+	&-back
+		background: puzzle-color repeat
+		background-image: url("../images/pattern.svg")
+		background-size: 70% 70%
+
+		&:hover
+			box-shadow: 0 0 8px 1px rgba(puzzle-color-shadow-highlight, .7)
+
+	&-r180
+		transform: rotate3d(0, 1, 0, 180deg)
 
 

@@ -17,13 +17,6 @@ app.directive('menuButton', ['$location', function () {
 			action: '='
 		},
 		transclude: true,
-		templateUrl: url,
-		link: function (scope, element) {
-			element.on('click', function () {
-				scope.$apply(function () {
-					scope.action();
-				});
-			});
-		}
+		templateUrl: url
 	};
 }]);

@@ -17,6 +17,6 @@ app.controller('MenuController', ['$scope', '$location', 'settings', function ($
 	};
 
 	$scope.newgame = function () {
-		$location.path('/game');
+		$location.url('/game');
 	};
 }]);

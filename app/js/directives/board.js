@@ -8,10 +8,6 @@ var boardUrl = require('./board.tmpl.html');
 var puzzleIcons = require('../../images/icons');
 var puzzleColor = require('../data/colors');
 
-var frontClasname = 'puzzle-front';
-var backClasname = 'puzzle-back';
-var semiClassname = 'puzzle-semi';
-
 var puzzleClasses = {
 	'puzzle-front': false,
 	'puzzle-back': false,
@@ -20,6 +16,8 @@ var puzzleClasses = {
 	'puzzle-r180': false,
 	'puzzle-delayed': false
 };
+
+var startId = 0;
 
 var generatePuzzles = function (images, colors, boardSize) {
 	'use strict';
@@ -63,8 +61,8 @@ var generatePuzzles = function (images, colors, boardSize) {
 		};
 
 		puzzles.push(
-			angular.extend({id: pair[0], pair: pair[1]}, puzzle, {classes: classes}),
-			angular.extend({id: pair[1], pair: pair[0]}, puzzle, {classes: angular.copy(classes)})
+			angular.extend({id: pair[0], pair: pair[1]}, puzzle, {classes: classes}, {index: startId++}),
+			angular.extend({id: pair[1], pair: pair[0]}, puzzle, {classes: angular.copy(classes)}, {index: startId++})
 		);
 	}
 	return puzzles.slice(0).sort(function (a, b) {
@@ -74,7 +72,7 @@ var generatePuzzles = function (images, colors, boardSize) {
 
 require('./puzzle');
 
-app.directive('board', ['settings', 'puzzleMetrics', function (Settings, metrics) {
+app.directive('board', ['settings', 'puzzleMetrics', '$location', function (Settings, metrics, $location) {
 	'use strict';
 
 	return {
@@ -84,75 +82,85 @@ app.directive('board', ['settings', 'puzzleMetrics', function (Settings, metrics
 		templateUrl: boardUrl,
 
 		link: function (scope) {
-			angular.extend(scope, {
-				puzzles: generatePuzzles(puzzleIcons, puzzleColor, Settings.getActiveSize()),
+			scope.metricsStyle = 'width:' + metrics.size + 'px; height: ' +
+				metrics.size + 'px; margin: ' + metrics.space + 'px';
 
-				metricsStyle: 'width:' + metrics.size + 'px; height: ' + metrics.size + 'px; margin: ' + metrics.space + 'px',
-				opened: [],
+			scope.solved = false;
 
-				update: function (ids, isForced) {
-					[].concat(ids).forEach(function (id) {
-						var puzzle = scope.puzzles[id];
-						var state = puzzle.open || puzzle.solved;
-						var rotated = puzzle.classes['puzzle-r90'];
+			scope.gotomenu = function () {
+				$location.url('/');
+			};
 
-						puzzle.classes = angular.extend({}, puzzle.classes, {
-							'puzzle-front': state,
-							'puzzle-back': !state,
-							'puzzle-r0': state && !rotated,
-							'puzzle-r180': !state && !rotated,
-							'puzzle-delayed': isForced
-						});
-					});
+			scope.newgame = function () {
+				scope.puzzles = generatePuzzles(puzzleIcons, puzzleColor, Settings.getActiveSize());
+				scope.opened = [];
+			};
 
-					scope.$apply();
-				},
-
-				animationStep: function (id, isClick, isForced) {
+			scope.update = function (ids, isForced) {
+				[].concat(ids).forEach(function (id) {
 					var puzzle = scope.puzzles[id];
-					var classes = puzzle.classes;
+					var state = puzzle.open || puzzle.solved;
+					var rotated = puzzle.classes['puzzle-r90'];
 
-					if (puzzle.solved) {
-						return;
-					}
+					puzzle.classes = angular.extend({}, puzzle.classes, {
+						'puzzle-front': state,
+						'puzzle-back': !state,
+						'puzzle-r0': state && !rotated,
+						'puzzle-r180': !state && !rotated,
+						'puzzle-delayed': isForced
+					});
+				});
 
-					if (isClick || isForced) {
-						puzzle.cycleFinished = false;
-					}
+				scope.$apply();
+			};
 
-					if (puzzle.cycleFinished) {
-						scope.check(id);
-						return;
-					}
-
-					if (!classes['puzzle-r90']) {
-						classes['puzzle-r90'] = true;
-					} else {
-						classes['puzzle-r90'] = false;
-						puzzle.cycleFinished = true;
-						puzzle.open = !puzzle.open;
-						if (puzzle.open) {
-							scope.opened.push(id);
-						}
-					}
-
-					scope.update([id], isForced);
-				},
-
-				check: function (id) {
-					var pairId = scope.puzzles[id].pair;
-					var ids = scope.opened.slice(0);
-					if (scope.puzzles[pairId].open) {
-						scope.puzzles[pairId].solve = scope.puzzles[id].solve = false;
-						scope.opened = [];
-					} else if (scope.opened.length === 2) {
-						scope.opened.splice(0, 2).forEach(function (i) {
-							scope.animationStep(i, null, true);
-						});
-					}
+			scope.check = function (id) {
+				var pairId = scope.puzzles[id].pair;
+				var ids = scope.opened.slice(0);
+				if (scope.puzzles[pairId].open) {
+					scope.puzzles[pairId].solve = scope.puzzles[id].solve = false;
+					scope.opened = [];
+					scope.update(ids);
+				} else if (scope.opened.length === 2) {
+					scope.opened.splice(0, 2).forEach(function (i) {
+						scope.animationStep(i, null, true);
+					});
 					scope.update(ids, true);
 				}
-			});
+			};
+
+			scope.animationStep = function (id, isClick, isForced) {
+				var puzzle = scope.puzzles[id];
+				var classes = puzzle.classes;
+
+				if (puzzle.solved) {
+					return;
+				}
+
+				if (isClick || isForced) {
+					puzzle.cycleFinished = false;
+				}
+
+				if (puzzle.cycleFinished) {
+					scope.check(id);
+					return;
+				}
+
+				if (!classes['puzzle-r90']) {
+					classes['puzzle-r90'] = true;
+				} else {
+					classes['puzzle-r90'] = false;
+					puzzle.cycleFinished = true;
+					puzzle.open = !puzzle.open;
+					if (puzzle.open) {
+						scope.opened.push(id);
+					}
+				}
+
+				scope.update([id], isForced);
+			};
+
+			scope.newgame();
 		}
 	};
 }]);

@@ -25,6 +25,7 @@ app.directive('puzzle', ['$window', function ($window) {
 			});
 
 			element.on('click', function () {
+				console.log(puzzle);
 				if (puzzle.open || puzzle.solved) {
 					return;
 				}

@@ -12,7 +12,7 @@ app.config(['$localStorageProvider', function ($localStorageProvider) {
 
 		$localStorageProvider.setKeyPrefix('game_');
 	}])
-	.config(function ($routeProvider) {
+	.config(['$routeProvider', function ($routeProvider) {
 		'use strict';
 
 		$routeProvider
@@ -29,4 +29,4 @@ app.config(['$localStorageProvider', function ($localStorageProvider) {
 				redirectTo: '/game'
 			})
 		;
-	});
+	}]);

@@ -15,12 +15,22 @@ app.directive('puzzle', ['$window', function ($window) {
 		link: function (scope, element, attrs) {
 			var puzzle = scope.puzzles[attrs.id];
 
-			element.on('transitionend', function (e) {
-				if (e.propertyName !== 'transform') {
+			scope.$watch('puzzles[$index].clicks', function (newVal, oldVal) {
+				if (oldVal === newVal) {
 					return;
 				}
 				$window.requestAnimationFrame(function () {
-					scope.animationStep(attrs.id);
+					element.removeClass('puzzle-animated-paused');
+				});
+			});
+
+			element.on('animationiteration', function (e) {
+				if (e.animationName !== scope.animationName) {
+					return;
+				}
+				$window.requestAnimationFrame(function () {
+					element.addClass('puzzle-animated-paused');
+					scope.toggle(attrs.id);
 				});
 			});
 
@@ -29,8 +39,10 @@ app.directive('puzzle', ['$window', function ($window) {
 					return;
 				}
 
+				scope.countClicks();
+
 				$window.requestAnimationFrame(function () {
-					scope.animationStep(attrs.id, true);
+					element.removeClass('puzzle-animated-paused');
 				});
 			});
 		}

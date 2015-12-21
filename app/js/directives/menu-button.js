@@ -6,7 +6,7 @@
 var app = require('../app');
 var url = require('./menu-button.tmpl.html');
 
-app.directive('menuButton', ['$location', function ($location) {
+app.directive('menuButton', ['$location', function () {
 	'use strict';
 
 	return {
@@ -14,14 +14,14 @@ app.directive('menuButton', ['$location', function ($location) {
 		replace: true,
 		scope: {
 			buttonStyle: '@',
-			link: '@'
+			action: '='
 		},
 		transclude: true,
 		templateUrl: url,
 		link: function (scope, element) {
 			element.on('click', function () {
 				scope.$apply(function () {
-					$location.path(scope.link);
+					scope.action();
 				});
 			});
 		}

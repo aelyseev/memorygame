@@ -8,14 +8,17 @@ var app = require('../app');
 app.service('settings', ['$localStorage', function ($localStorage) {
 	'use strict';
 	var defaults = [
+		{name: '2×2', active: false},
 		{name: '4×4', active: false},
 		{name: '6×6', active: true},
 		{name: '8×8', active: false}
 	];
 
 	this.getState = function () {
-		return $localStorage.state.map(function (state, i) {
-			return angular.extend({}, defaults[i], state);
+		var state = $localStorage.state;
+
+		return defaults.map(function (s, i) {
+			return angular.extend({}, s, state[i]);
 		});
 	};
 

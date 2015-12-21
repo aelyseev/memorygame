@@ -85,14 +85,13 @@ app.directive('board', ['settings', 'puzzleMetrics', '$location', function (Sett
 			scope.metricsStyle = 'width:' + metrics.size + 'px; height: ' +
 				metrics.size + 'px; margin: ' + metrics.space + 'px';
 
-			scope.solved = false;
-
 			scope.gotomenu = function () {
 				$location.url('/');
 			};
 
 			scope.newgame = function () {
 				scope.puzzles = generatePuzzles(puzzleIcons, puzzleColor, Settings.getActiveSize());
+				scope.solved = false;
 				scope.opened = [];
 			};
 
@@ -111,14 +110,19 @@ app.directive('board', ['settings', 'puzzleMetrics', '$location', function (Sett
 					});
 				});
 
+				scope.solved = scope.puzzles.every(function (puzzle) {
+					return puzzle.solved;
+				});
+
 				scope.$apply();
 			};
 
 			scope.check = function (id) {
 				var pairId = scope.puzzles[id].pair;
 				var ids = scope.opened.slice(0);
+
 				if (scope.puzzles[pairId].open) {
-					scope.puzzles[pairId].solve = scope.puzzles[id].solve = false;
+					scope.puzzles[pairId].solved = scope.puzzles[id].solved = true;
 					scope.opened = [];
 					scope.update(ids);
 				} else if (scope.opened.length === 2) {

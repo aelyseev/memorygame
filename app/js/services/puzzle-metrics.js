@@ -4,6 +4,6 @@
  */
 var app = require('../app');
 app.constant('puzzleMetrics', {
-	size: 55,
-	space: 8
+	size: 52,
+	space: 6
 });

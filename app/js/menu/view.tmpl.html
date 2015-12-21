@@ -3,17 +3,10 @@
 	<div class="block menu-width">
 		<div class="block-title">Board sizes</div>
 		<div class="block-options">
-			<span class="block-options-item block-options-item-active">4×4</span>
-			<span class="block-options-item block-options-item-active">6×6</span>
-			<span class="block-options-item block-options-item-selected">8×8</span>
-		</div>
-	</div>
-	<div class="block menu-width">
-		<div class="block-title">Difficulty</div>
-		<div class="block-options">
-			<span class="block-options-item block-options-item-active">2 seconds</span>
-			<span class="block-options-item block-options-item-selected">1 second</span>
-			<span class="block-options-item block-options-item-active">0.5 seconds</span>
+			<span ng-repeat="size in sizes track by $index"
+						ng-class="{'block-options-item-selected': sizes[$index].active}"
+						ng-click="setSize(sizes[$index].name)"
+						class="block-options-item block-options-item-active">{{sizes[$index].name}}</span>
 		</div>
 	</div>
 </div>

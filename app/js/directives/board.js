@@ -85,7 +85,7 @@ app.directive('board', ['settings', 'puzzleMetrics', function (Settings, metrics
 
 		link: function (scope) {
 			angular.extend(scope, {
-				puzzles: generatePuzzles(puzzleIcons, puzzleColor, Number(Settings.size[0])),
+				puzzles: generatePuzzles(puzzleIcons, puzzleColor, Settings.getActiveSize()),
 
 				metricsStyle: 'width:' + metrics.size + 'px; height: ' + metrics.size + 'px; margin: ' + metrics.space + 'px',
 				opened: [],

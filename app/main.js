@@ -7,6 +7,7 @@ var app = require('./js/app');
 
 // styles
 require('./style/index.styl');
+require('./images/icons.styl');
 
 // config
 require('./js/config');

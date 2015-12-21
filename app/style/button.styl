@@ -25,6 +25,9 @@ button-game-radius = 3px
 		border-radius: button-menu-raduis
 		line-height: button-menu-size
 
+		&:active
+			box-shadow: inset 3px 3px 4px 1px rgba(0, 0, 0, 0.2)
+
 	&-game
 		height: button-game-size
 		border-radius: button-game-radius
@@ -36,9 +39,11 @@ button-game-radius = 3px
 		margin: 0 auto
 		width: 200px
 
+		&:active
+			box-shadow: inset 2px 2px 4px 1px rgba(0, 0, 0, 0.2)
+
 	&:hover,
 	&:active
 		background-color: darken(button-color-purple, 20%)
 
-	&:active
-		box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+

@@ -8,10 +8,10 @@
 var DEV = 'dev';
 var PROD = 'prod';
 
-var autoprefixer = require('autoprefixer');
-
 var mode = process.env.NODE_ENV || DEV;
 
+var autoprefixer = require('autoprefixer');
+var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -28,7 +28,7 @@ module.exports = {
 	},
 
 	resolve: {
-		extensions: ['', '.js', '.styl']
+		extensions: ['', '.js']
 	},
 
 	externals: {
@@ -39,7 +39,13 @@ module.exports = {
 		loaders: [
 			{
 				test: /\.styl$/,
+				include: path.join(__dirname, 'app/styl'),
 				loader: ExtractTextPlugin.extract('style', 'css!postcss!stylus?resolve-url')
+			},
+			{
+				test: /\.styl$/,
+				include: path.join(__dirname, 'app/images'),
+				loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[hash:base64:6]!postcss!stylus?resolve-url|')
 			},
 			{
 				test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
@@ -61,10 +67,10 @@ module.exports = {
 	plugins: [
 		new ExtractTextPlugin('[name].css', {allChunks: true}),
 		new CopyWebpackPlugin([
-			{from: (mode === DEV) ? '../node_modules/angular/angular.js' : '../node_modules/angular/angular.min.js'},
-			{from: (mode === DEV) ? '../node_modules/angular-route/angular-route.js' :
-				'../node_modules/angular-route/angular-route.min.js'},
-			{from: '../node_modules/ngstorage/ngstorage.min.js'}
+			{from: '../node_modules/angular/angular.js'},
+			{from: '../node_modules/angular-route/angular-route.js'},
+			{from: '../node_modules/ngstorage/ngstorage.js'},
+			{from: './index.html'}
 		])
 	],
 

@@ -16,6 +16,9 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
+// generate icon styles
+require('./app/scripts/images');
+
 module.exports = {
 	context: __dirname + '/app',
 	entry: {
@@ -83,3 +86,15 @@ module.exports = {
 		contentBase: __dirname + '/public'
 	}
 };
+
+if (mode === PROD) {
+	module.exports.plugins.push(
+		new webpack.optimize.UglifyJsPlugin({
+			compress: {
+				warnings: false,
+				drop_console: true,
+				unsafe: true
+			}
+		})
+	);
+}

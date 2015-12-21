@@ -1,6 +1,4 @@
+.idea
 node_modules/
 public/
-!public/index.html
-.idea
-
 app/images/icons/index.js

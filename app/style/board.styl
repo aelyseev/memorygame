@@ -3,53 +3,33 @@
 
 puzzle-size = 55px
 
-puzzle = '.puzzle'
-
 .board
 	center()
 
-	&-buttons
+	&-game-menu
 		position: absolute
+		z-index: 500
 		top: 10px
 		left: 0
 		right: 0
 		margin: 0 auto
-		width: 150px
+
+		&-info
+			font-size: 12px
+			text-align: center
 
 puzzle-color = #00903C
 puzzle-color-shadow = darken(puzzle-color, 30%)
 puzzle-color-shadow-highlight = lightness(hue(puzzle-color, 30deg), 50%)
 
-{puzzle}
+.puzzle
 	border: 1px solid puzzle-color
 	border-radius: 6px
 	box-sizing: border-box
 	cursor: pointer
-	transition:  box-shadow 200ms ease-in-out, transform 200ms ease-in-out
+	transition:  box-shadow 200ms ease-in-out
+	background: puzzle-color url("../images/pattern.svg") repeat
 	will-change: transform
 
-	&-front
-		background: transparent no-repeat center center
-		background-size: 70% 70%
-
-	&-r0
-		transform: rotate3d(0, 1, 0, 0deg)
-
-	&-r90
-		transform: rotate3d(0, 1, 0, 90deg)
-
-	&-delayed
-		transition-delay: 300ms
-
-	&-back
-		background: puzzle-color repeat
-		background-image: url("../images/pattern.svg")
-		background-size: 70% 70%
-
-		&:hover
-			box-shadow: 0 0 8px 1px rgba(puzzle-color-shadow-highlight, .7)
-
-	&-r180
-		transform: rotate3d(0, 1, 0, 180deg)
 
 

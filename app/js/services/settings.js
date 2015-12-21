@@ -8,7 +8,6 @@ var app = require('../app');
 app.service('settings', ['$localStorage', function ($localStorage) {
 	'use strict';
 	var defaults = [
-		{name: '2×2', active: false},
 		{name: '4×4', active: false},
 		{name: '6×6', active: true},
 		{name: '8×8', active: false}
@@ -16,6 +15,10 @@ app.service('settings', ['$localStorage', function ($localStorage) {
 
 	this.getState = function () {
 		var state = $localStorage.state;
+
+		if (!state) {
+			$localStorage.state = state = defaults;
+		}
 
 		return defaults.map(function (s, i) {
 			return angular.extend({}, s, state[i]);

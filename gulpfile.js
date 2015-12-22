@@ -11,7 +11,7 @@ var ignore = require('gulp-ignore');
 var del = require('del');
 
 gulp.task('clean', function () {
-	return del(['public']);
+	return del(['public', '.publish']);
 });
 
 gulp.task("webpack", ['clean'], function(callback) {

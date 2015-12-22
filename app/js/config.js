@@ -26,7 +26,7 @@ app.config(['$localStorageProvider', function ($localStorageProvider) {
 				controller: 'GameController'
 			})
 			.otherwise({
-				redirectTo: '/game'
+				redirectTo: '/'
 			})
 		;
 	}]);

@@ -45,12 +45,12 @@ var generatePuzzles = function (images, boardSize) {
 		};
 
 		puzzles.push(
-			angular.extend({id: pair[0], pair: pair[1]}, puzzle, {index: startId++}),
-			angular.extend({id: pair[1], pair: pair[0]}, puzzle, {index: startId++})
+			angular.extend({index: pair[0], pair: pair[1]}, puzzle, {id: startId++}),
+			angular.extend({index: pair[1], pair: pair[0]}, puzzle, {id: startId++})
 		);
 	}
 	return puzzles.slice(0).sort(function (a, b) {
-		return a.id - b.id;
+		return a.index - b.index;
 	});
 };
 
@@ -84,19 +84,18 @@ app.directive('board', ['settings', 'puzzleMetrics', '$location', function (Sett
 				scope.clicks = 0;
 			};
 
-			scope.toggle = function (id) {
+			scope.toggle = function (index) {
 				scope.$apply(function () {
-					var state = !scope.puzzles[id].open;
-					scope.puzzles[id].open = state;
+					var state = !scope.puzzles[index].open;
+					scope.puzzles[index].open = state;
 					if (state) {
-						scope.opened.push(id);
+						scope.opened.push(index);
 					}
-					scope.check();
-					scope.updateBoard();
+					scope._updateBoard();
 				});
 			};
 
-			scope.check = function () {
+			scope._updateBoard = function () {
 				var puzzles = scope.puzzles;
 				var pair;
 
@@ -106,16 +105,13 @@ app.directive('board', ['settings', 'puzzleMetrics', '$location', function (Sett
 
 				pair = scope.opened.splice(0, 2);
 
-				if (puzzles[pair[0]].pair === puzzles[pair[1]].id) {
+				if (puzzles[pair[0]].pair === puzzles[pair[1]].index) {
 					scope.puzzles[pair[0]].solved = scope.puzzles[pair[1]].solved = true;
 				} else {
-					pair.forEach(function (i) {
-						scope.puzzles[i].clicks++;
+					pair.forEach(function (index) {
+						scope.puzzles[index].clicks++;
 					});
 				}
-			};
-
-			scope.updateBoard = function () {
 				scope.solved = scope.puzzles.every(function (puzzle) {
 					return puzzle.solved;
 				});

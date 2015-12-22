@@ -13,7 +13,7 @@ app.directive('puzzle', ['$window', function ($window) {
 		replace: true,
 		templateUrl: puzzleUrl,
 		link: function (scope, element, attrs) {
-			var puzzle = scope.puzzles[attrs.id];
+			var puzzle = scope.puzzles[attrs.index];
 
 			scope.$watch('puzzles[$index].clicks', function (newVal, oldVal) {
 				if (oldVal === newVal) {
@@ -30,7 +30,7 @@ app.directive('puzzle', ['$window', function ($window) {
 				}
 				$window.requestAnimationFrame(function () {
 					element.addClass('puzzle-animated-paused');
-					scope.toggle(attrs.id);
+					scope.toggle(attrs.index);
 				});
 			});
 

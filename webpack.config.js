@@ -52,7 +52,7 @@ module.exports = {
 			},
 			{
 				test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
-				loader: 'file?name=[path][name].[ext]'
+				loader: 'url?limit=2000&name=[path][name].[ext]'
 			},
 			{
 				test: /tmpl\.html$/,

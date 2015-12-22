@@ -22,7 +22,6 @@ app.config(['$localStorageProvider', function ($localStorageProvider) {
 			})
 			.when('/game', {
 				templateUrl: gameUrl,
-				game: false,
 				controller: 'GameController'
 			})
 			.otherwise({

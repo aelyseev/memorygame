@@ -26,7 +26,7 @@ module.exports = {
 	},
 	output: {
 		path: __dirname + '/public',
-		publicPath: '/',
+		publicPath: '',
 		filename: '[name].js'
 	},
 

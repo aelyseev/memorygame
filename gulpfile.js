@@ -8,8 +8,13 @@ var usemin = require('gulp-usemin');
 var uglify = require('gulp-uglify');
 var rev = require('gulp-rev');
 var ignore = require('gulp-ignore');
+var del = require('del');
 
-gulp.task("webpack", function(callback) {
+gulp.task('clean', function () {
+	return del(['public']);
+});
+
+gulp.task("webpack", ['clean'], function(callback) {
 	// force production build mode
 	process.env.NODE_ENV = 'prod';
 	webpack(require('./webpack.config'), function(err, stats) {

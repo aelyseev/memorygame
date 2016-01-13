@@ -6,7 +6,11 @@
 	"globals": {
 		"angular": false,
 		"require": false,
-		"module": true
+		"module": true,
+		"app": false,
+		"describe": false,
+		"it": false,
+		"expect": false
 	},
 
 	"rules": {

@@ -14,7 +14,7 @@ require('./js/config');
 
 // controllers
 require('./js/features/menu/controller');
-require('./js/features/game/controller');
+require('./js/features/game/game.controller');
 
 //settings
 require('./js/services/settings');

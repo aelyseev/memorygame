@@ -3,11 +3,9 @@
  * @date 17/12/15
  */
 
-var app = require('../app');
-
 // directives
-require('../directives/menu-button');
-require('../directives/board');
+require('../../directives/menu-button');
+require('../../directives/board');
 
 app.controller('GameController', ['$scope', 'settings', 'puzzleMetrics', function ($scope, Settings, metrics) {
 	'use strict';

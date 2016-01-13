@@ -4,8 +4,8 @@
  */
 
 var app = require('./app');
-var menuUrl = require('./menu/view.tmpl.html');
-var gameUrl = require('./game/view.tmpl.html');
+var menuUrl = require('./features/menu/view.tmpl.html');
+var gameUrl = require('./features/game/view.tmpl.html');
 
 app.config(['$localStorageProvider', function ($localStorageProvider) {
 		'use strict';

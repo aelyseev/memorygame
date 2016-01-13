@@ -13,8 +13,8 @@ require('./images/icons.styl');
 require('./js/config');
 
 // controllers
-require('./js/menu/controller');
-require('./js/game/controller');
+require('./js/features/menu/controller');
+require('./js/features/game/controller');
 
 //settings
 require('./js/services/settings');

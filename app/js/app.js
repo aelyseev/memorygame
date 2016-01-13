@@ -3,6 +3,6 @@
  * @date 15/12/15
  */
 
-module.exports = require('angular').module('app', [
+module.exports = angular.module('app', [
 	'ngRoute', 'ngStorage'
 ]);

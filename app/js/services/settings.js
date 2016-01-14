@@ -12,28 +12,29 @@ app.service('settings', ['$localStorage', function ($localStorage) {
 	];
 
 	this.getDefaults = function () {
-		return defaults;
+		return angular.extend([], defaults);
 	};
 
 	this.getState = function () {
 		var state = $localStorage.state;
 
 		if (!state) {
-			$localStorage.state = state = defaults;
+			$localStorage.state = state = this.getDefaults();
 		}
 
 		// to drop incompatible states
-		return defaults.map(function (s, i) {
+		return this.getDefaults().map(function (s, i) {
 			return angular.extend({}, s, state[i]);
 		});
 	};
 
-	this.getActiveSize = function () {
+	this.getActiveSize = function (data) {
 		var filter = function (state) {
 			return state.active;
 		};
-		var activeName = this.getState().filter(filter).concat(defaults.filter(filter)).shift().name;
-		return Number(activeName[0]);
+		var states = data || this.getState();
+		var activeState = states.filter(filter).shift() || this.getDefaults().filter(filter).shift();
+		return Number(activeState.name[0]);
 	};
 
 	this.setState = function (name) {

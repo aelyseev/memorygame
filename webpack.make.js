@@ -21,6 +21,8 @@ module.exports = function (options) {
 	var PROD = (!!options.PROD && BUILD) || false;
 	var TEST = !!options.TEST || !BUILD;
 
+	var styleLoaderName = (TEST) ? 'null' : 'style';
+
 	var config = {
 		resolve: {
 			extensions: ['', '.js']
@@ -35,12 +37,12 @@ module.exports = function (options) {
 				{
 					test: /\.styl$/,
 					include: path.join(__dirname, 'app/styl'),
-					loader: ExtractTextPlugin.extract('style', 'css!postcss!stylus?resolve-url')
+					loader: ExtractTextPlugin.extract(styleLoaderName, 'css!postcss!stylus?resolve-url')
 				},
 				{
 					test: /\.styl$/,
 					include: path.join(__dirname, 'app/images'),
-					loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[hash:base64:6]!postcss!stylus?resolve-url|')
+					loader: ExtractTextPlugin.extract(styleLoaderName, 'css?modules&localIdentName=[hash:base64:6]!postcss!stylus?resolve-url|')
 				},
 				{
 					test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
@@ -93,6 +95,7 @@ module.exports = function (options) {
 		});
 
 		config.plugins.push(
+			new Clean(['public']),
 			new CopyWebpackPlugin([
 				{from: '../node_modules/angular/angular.js'},
 				{from: '../node_modules/angular-route/angular-route.js'},
@@ -103,7 +106,6 @@ module.exports = function (options) {
 
 		if (PROD) { //build and prod
 			config.plugins.push(
-				new Clean(['public']),
 				new webpack.optimize.UglifyJsPlugin({
 					compress: {
 						warnings: false,

@@ -3,8 +3,6 @@
  * @date 15/12/15
  */
 
-var app = require('./js/app');
-
 // styles
 require('./style/index.styl');
 require('./images/icons.styl');

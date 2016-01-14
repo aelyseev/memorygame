@@ -3,7 +3,6 @@
  * @date 17/12/15
  */
 
-var app = require('./app');
 var menuUrl = require('./features/menu/view.tmpl.html');
 var gameUrl = require('./features/game/view.tmpl.html');
 

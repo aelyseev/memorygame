@@ -3,8 +3,6 @@
  * @date 21/12/15
  */
 
-var app = require('../app');
-
 app.service('settings', ['$localStorage', function ($localStorage) {
 	'use strict';
 	var defaults = [
@@ -13,6 +11,10 @@ app.service('settings', ['$localStorage', function ($localStorage) {
 		{name: '8×8', active: false}
 	];
 
+	this.getDefaults = function () {
+		return defaults;
+	};
+
 	this.getState = function () {
 		var state = $localStorage.state;
 
@@ -20,15 +22,17 @@ app.service('settings', ['$localStorage', function ($localStorage) {
 			$localStorage.state = state = defaults;
 		}
 
+		// to drop incompatible states
 		return defaults.map(function (s, i) {
 			return angular.extend({}, s, state[i]);
 		});
 	};
 
 	this.getActiveSize = function () {
-		var activeName = this.getState().filter(function (state) {
+		var filter = function (state) {
 			return state.active;
-		})[0].name;
+		};
+		var activeName = this.getState().filter(filter).concat(defaults.filter(filter)).shift().name;
 		return Number(activeName[0]);
 	};
 

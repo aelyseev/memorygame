@@ -11,7 +11,7 @@ require('./images/icons.styl');
 require('./js/config');
 
 // controllers
-require('./js/features/menu/controller');
+require('./js/features/menu/menu.controller');
 require('./js/features/game/game.controller');
 
 //settings

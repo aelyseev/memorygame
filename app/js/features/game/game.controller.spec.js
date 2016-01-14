@@ -5,7 +5,7 @@
 
 /*global beforeEach, before, it*/
 
-describe('Controller: Home', function () {
+describe('Controller: Game', function () {
 	'use strict';
 
 	var $controller;

@@ -9,6 +9,8 @@
 		"module": true,
 		"app": false,
 		"describe": false,
+		"before": false,
+		"beforeEach": false,
 		"it": false,
 		"expect": false
 	},

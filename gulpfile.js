@@ -11,13 +11,11 @@ var ignore = require('gulp-ignore');
 var del = require('del');
 
 gulp.task('clean', function () {
-	return del(['public', '.publish']);
+	return del(['.publish']);
 });
 
 gulp.task("webpack", ['clean'], function(callback) {
-	// force production build mode
-	process.env.NODE_ENV = 'prod';
-	webpack(require('./webpack.config'), function(err, stats) {
+	webpack(require('./webpack.make')({BUILD: true, PROD: true}), function(err, stats) {
 		if (err) {
 			throw new gutil.PluginError("webpack", err);
 		}

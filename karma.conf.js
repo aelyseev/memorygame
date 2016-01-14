@@ -7,7 +7,7 @@ module.exports = function (config) {
 
 		browsers: ['PhantomJS'],
 
-		singleRun: true,
+		singleRun: false,
 
 		frameworks: ['mocha', 'chai'],
 
@@ -21,6 +21,7 @@ module.exports = function (config) {
 
 		files: [
 			'node_modules/angular/angular.js',
+			'node_modules/angular-mocks/angular-mocks.js',
 			'node_modules/angular-route/angular-route.js',
 			'node_modules/ngstorage/ngStorage.js',
 			'./app/js/test.index.js'
@@ -31,6 +32,8 @@ module.exports = function (config) {
 		},
 
 		reporters: ['progress'],
+
+		autoWatch: true,
 
 		webpack: require('./webpack.make')({TEST: true}),
 

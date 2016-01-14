@@ -5,6 +5,6 @@
 
 module.exports = require('./webpack.make')({
 	BUILD: true,
-	PROD: true,
+	PROD: false,
 	TEST: false
 });

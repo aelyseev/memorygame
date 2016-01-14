@@ -3,5 +3,9 @@
  * @date 05/01/16
  */
 
-var context = require.context('./', true, /spec\.js$/);
+var context;
+
+require('../main');
+
+context = require.context('./', true, /spec\.js$/);
 context.keys().forEach(context);

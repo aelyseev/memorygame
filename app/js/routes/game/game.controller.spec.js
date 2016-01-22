@@ -12,7 +12,7 @@ describe('Controller: Game', function () {
 	var ctrl;
 	var scope;
 
-	beforeEach(angular.mock.module('app'));
+	beforeEach(angular.mock.module(app.name));
 
 	beforeEach(angular.mock.inject(function (_$controller_, _$rootScope_) {
 		scope = _$rootScope_.$new();

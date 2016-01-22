@@ -11,7 +11,7 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var Clean = require('clean-webpack-plugin');
-var generateIcons = require('./app/scripts/images');
+var generateIcons = require('./app/scripts/icons');
 var assign = require('object-assign');
 
 module.exports = function (options) {
@@ -29,7 +29,8 @@ module.exports = function (options) {
 		},
 
 		externals: {
-			angular: 'angular'
+			angular: 'angular',
+			Velocity: 'Velocity'
 		},
 
 		module: {
@@ -64,6 +65,7 @@ module.exports = function (options) {
 		plugins: [
 			new webpack.ProvidePlugin({
 				'angular': 'angular',
+				'velocity': 'Velocity',
 				'app': __dirname + '/app/js/app'
 			}),
 
@@ -100,6 +102,7 @@ module.exports = function (options) {
 				{from: '../node_modules/angular/angular.js'},
 				{from: '../node_modules/angular-route/angular-route.js'},
 				{from: '../node_modules/ngstorage/ngstorage.js'},
+				{from: '../node_modules/velocity-animate/velocity.js'},
 				{from: './index.html'}
 			])
 		);
@@ -119,12 +122,6 @@ module.exports = function (options) {
 		config = assign({}, config, {
 			devtool: 'inline-source-map'
 		});
-		config.plugins.push(
-			new webpack.ProvidePlugin({
-				'angular': 'angular',
-				'app': __dirname + '/app/js/app'
-			})
-		);
 	}
 
 	generateIcons();

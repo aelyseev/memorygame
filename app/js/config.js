@@ -3,8 +3,8 @@
  * @date 17/12/15
  */
 
-var menuUrl = require('./features/menu/view.tmpl.html');
-var gameUrl = require('./features/game/view.tmpl.html');
+var menuUrl = require('./routes/menu/view.tmpl.html');
+var gameUrl = require('./routes/game/view.tmpl.html');
 
 app.config(['$localStorageProvider', function ($localStorageProvider) {
 		'use strict';

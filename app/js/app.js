@@ -3,6 +3,8 @@
  * @date 15/12/15
  */
 
-module.exports = angular.module('app', [
-	'ngRoute', 'ngStorage'
+var actions = require('./modules/actions/game.actions');
+
+module.exports = angular.module('game', [
+	'ngRoute', 'ngStorage', actions
 ]);

@@ -8,7 +8,7 @@ describe('Service: Puzzle metrics', function () {
 
 	var $inject = angular.mock.inject;
 
-	beforeEach(angular.mock.module('app'));
+	beforeEach(angular.mock.module(app.name));
 
 	it('Settings define an object with methods', $inject(function (settings) {
 		expect(settings).to.be.an('object');

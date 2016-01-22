@@ -5,6 +5,7 @@
 
 	"globals": {
 		"angular": false,
+		"velocity": false,
 		"require": false,
 		"module": true,
 		"app": false,

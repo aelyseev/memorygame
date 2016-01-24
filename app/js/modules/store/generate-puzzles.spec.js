@@ -8,7 +8,7 @@ var diff = require('lodash/difference');
 var findIndex = require('lodash/findIndex');
 var bind = require('lodash/bind');
 
-describe.only('Module: Generate puzzles', function () {
+describe('Module: Generate puzzles', function () {
 	'use strict';
 
 	it('Verify that all puzzle ids are unique and covers a range', function () {

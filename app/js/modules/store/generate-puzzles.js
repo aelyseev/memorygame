@@ -3,8 +3,8 @@
  * @date 21/01/16
  */
 
-var puzzleStyles = require('../../../images/icons2.styl');
-var puzzleStyleNames = require('../../../images/icons2');
+var puzzleStyles = require('../../../images/icons.styl');
+var puzzleStyleNames = require('../../../images/icons');
 
 var generatePuzzles = function generator(styles, styleNames, boardSize, startId) {
 	'use strict';
@@ -47,6 +47,7 @@ var generatePuzzles = function generator(styles, styleNames, boardSize, startId)
 			angular.extend({index: pair[1], pair: pair[0]}, puzzle, {id: id++})
 		);
 	}
+
 	return puzzles.slice(0).sort(function (a, b) {
 		return a.index - b.index;
 	});

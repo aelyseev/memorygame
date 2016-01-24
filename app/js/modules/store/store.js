@@ -3,7 +3,6 @@
  * @date 23/01/16
  */
 
-
 var actions = require('./store.actions');
 var redux = require('redux');
 var generatePuzzles = require('./generate-puzzles');

@@ -9,14 +9,16 @@ module.exports = function (config) {
 
 		singleRun: false,
 
-		frameworks: ['mocha', 'chai'],
+		frameworks: ['mocha', 'sinon-chai'],
 
 		plugins: [
-			'karma-chai',
+			'karma-sinon-chai',
 			'karma-mocha',
 			'karma-webpack',
 			'karma-phantomjs-launcher',
-			'karma-sourcemap-loader'
+			'karma-sourcemap-loader',
+			'karma-spec-reporter',
+			'karma-coverage'
 		],
 
 		files: [
@@ -32,7 +34,10 @@ module.exports = function (config) {
 			'./app/js/test.index.js': ['webpack', 'sourcemap']
 		},
 
-		reporters: ['progress'],
+		reporters: [
+			'spec',
+			'coverage'
+		],
 
 		autoWatch: true,
 

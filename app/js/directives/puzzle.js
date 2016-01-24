@@ -3,46 +3,52 @@
  * @date 17/12/15
  */
 
-var app = require('../app');
 var puzzleUrl = require('./puzzle.tmpl.html');
 
-app.directive('puzzle', ['$window', function ($window) {
+var toggle = function (elem, puzzle) {
+	'use strict';
+
+	var start = (puzzle.open) ? 0 : 180;
+	var params = {duration: 250};
+
+	return velocity(elem, {
+		rotateY: [90, start]
+	}, params)
+		.then(function (el) {
+			angular.element(el).toggleClass(puzzle.classname, !puzzle.open);
+
+			return velocity(el, {
+				rotateY: [180 - start, 90]
+			}, params);
+		});
+};
+
+app.directive('puzzle', [function () {
 	'use strict';
 	return {
 		restrict: 'A',
 		replace: true,
 		templateUrl: puzzleUrl,
-		link: function (scope, element, attrs) {
+		link: function (scope, $element, attrs) {
 			var puzzle = scope.puzzles[attrs.index];
 
 			scope.$watch('puzzles[$index].clicks', function (newVal, oldVal) {
 				if (oldVal === newVal) {
 					return;
 				}
-				$window.requestAnimationFrame(function () {
-					element.removeClass('puzzle-animated-paused');
-				});
-			});
-
-			element.on('animationiteration', function (e) {
-				if (e.animationName !== scope.animationName) {
-					return;
-				}
-				$window.requestAnimationFrame(function () {
-					element.addClass('puzzle-animated-paused');
+				toggle($element[0], puzzle).then(function () {
 					scope.toggle(attrs.index);
 				});
 			});
 
-			element.on('click', function () {
+			$element.on('click', function () {
 				if (puzzle.open || puzzle.solved) {
 					return;
 				}
 
-				scope.countClicks();
-
-				$window.requestAnimationFrame(function () {
-					element.removeClass('puzzle-animated-paused');
+				toggle($element[0], puzzle).then(function () {
+					scope.toggle(attrs.index);
+					scope.countClicks();
 				});
 			});
 		}

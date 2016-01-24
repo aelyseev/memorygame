@@ -22,6 +22,7 @@ module.exports = function (options) {
 	var TEST = !!options.TEST || !BUILD;
 
 	var styleLoaderName = (TEST) ? 'null' : 'style';
+	var styleImagesLoader = 'css?modules&localIdentName=[hash:base64:6]!postcss!stylus?resolve-url';
 
 	var config = {
 		resolve: {
@@ -43,7 +44,7 @@ module.exports = function (options) {
 				{
 					test: /\.styl$/,
 					include: path.join(__dirname, 'app/images'),
-					loader: ExtractTextPlugin.extract(styleLoaderName, 'css?modules&localIdentName=[hash:base64:6]!postcss!stylus?resolve-url|')
+					loader: (TEST) ? styleImagesLoader : ExtractTextPlugin.extract('style', styleImagesLoader)
 				},
 				{
 					test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
@@ -69,7 +70,7 @@ module.exports = function (options) {
 				'app': __dirname + '/app/js/app'
 			}),
 
-			new ExtractTextPlugin('[name].css', {allChunks: true, disable: TEST})
+			new ExtractTextPlugin('[name].css', {allChunks: true})
 		]
 	};
 

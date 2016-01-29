@@ -17,8 +17,7 @@ module.exports = function (config) {
 			'karma-webpack',
 			'karma-phantomjs-launcher',
 			'karma-sourcemap-loader',
-			'karma-spec-reporter',
-			'karma-coverage'
+			'karma-mocha-reporter'
 		],
 
 		files: [
@@ -35,13 +34,12 @@ module.exports = function (config) {
 		},
 
 		reporters: [
-			'spec',
-			'coverage'
+			'mocha'
 		],
 
 		autoWatch: true,
 
-		webpack: require('./webpack.make')({TEST: true}),
+		webpack: require('./webpack.common.js')({TEST: true}),
 
 		webpackServer: {
 			noInfo: true

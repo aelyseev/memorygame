@@ -14,15 +14,13 @@ var Clean = require('clean-webpack-plugin');
 var generateIcons = require('./app/scripts/icons');
 var assign = require('object-assign');
 
+var appPackage = require('./package.json');
+
 module.exports = function (options) {
 	'use strict';
 
 	var BUILD = !!options.BUILD || false;
-	var PROD = (!!options.PROD && BUILD) || false;
-	var TEST = !!options.TEST || !BUILD;
-
-	var styleLoaderName = (TEST) ? 'null' : 'style';
-	var styleImagesLoader = 'css?modules&localIdentName=[hash:base64:6]!postcss!stylus?resolve-url';
+	var PROD = !!options.PROD && BUILD;
 
 	var config = {
 		resolve: {
@@ -39,19 +37,20 @@ module.exports = function (options) {
 				{
 					test: /\.styl$/,
 					include: path.join(__dirname, 'app/styl'),
-					loader: ExtractTextPlugin.extract(styleLoaderName, 'css!postcss!stylus?resolve-url')
+					loader: ExtractTextPlugin.extract('style', 'css!postcss!stylus?resolve-url')
 				},
 				{
 					test: /\.styl$/,
 					include: path.join(__dirname, 'app/images'),
-					loader: (TEST) ? styleImagesLoader : ExtractTextPlugin.extract('style', styleImagesLoader)
+					loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[hash:base64:6]!postcss!stylus?resolve-url')
 				},
 				{
 					test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
 					loader: 'url?limit=2000&name=[path][name].[ext]'
 				},
 				{
-					test: /tmpl\.html$/,
+					test: /\.html$/,
+					include: [/js\/routes/, /js\/directives/],
 					loader: 'ngtemplate?relativeTo=' + __dirname + '!html?minimize=true'
 				}
 			],
@@ -68,6 +67,11 @@ module.exports = function (options) {
 				'angular': 'angular',
 				'velocity': 'Velocity',
 				'app': __dirname + '/app/js/app'
+			}),
+
+			new webpack.DefinePlugin({
+				DEBUG: !PROD,
+				VERSION: JSON.stringify(appPackage.version)
 			}),
 
 			new ExtractTextPlugin('[name].css', {allChunks: true})

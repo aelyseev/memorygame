@@ -3,16 +3,25 @@
  * @date 27/01/16
  */
 
-var sizeDefaults = [
+/*global VERSION*/
+
+var storageKey = require('./storage-key');
+var newgame = require('./newgame-generator');
+
+var optionsDefault = [
 	{name: '4×4', active: false},
 	{name: '6×6', active: true},
 	{name: '8×8', active: false}
 ];
 
+var puzzle = require('./puzzle-metrics');
+
 var defaults = {
 	route: '/',
 	board: {
-		sizes: sizeDefaults,
+		dirty: false,
+		options: optionsDefault,
+		queue: [],
 		solved: false,
 		lastId: 1,
 		clicks: 0,
@@ -20,9 +29,10 @@ var defaults = {
 	}
 };
 
-var State = function ($localStorage) {
+var State = function ($localStorage, $location) {
 	'use strict';
 	this.storage = $localStorage;
+	this.location = $location;
 };
 
 State.prototype = {
@@ -35,30 +45,15 @@ State.prototype = {
 
 	getInitialState: function () {
 		'use strict';
+		var state = angular.extend({}, this.getDefaults(), this.storage && this.storage[storageKey]);
+		var board = state.board;
 
-		var board = angular.extend({}, defaults.board, {sizes: this._initalSizes()});
-		return angular.extend({}, defaults, {board: board});
-	},
+		board = (board.puzzles.length) ? board : newgame(board);
 
-	_loadSizes: function () {
-		'use strict';
-
-		return (this.storage && this.storage.sizes) || {};
-	},
-
-	_initalSizes: function () {
-		'use strict';
-
-		var sizes = this._loadSizes();
-		var defaultSizes = sizeDefaults.slice();
-
-		// to drop incompatible states
-		return defaultSizes.map(function (size, i) {
-			return angular.extend({}, size, sizes[i]);
-		});
+		return angular.extend({}, state, {board: board}, {route: this.location.url()});
 	}
 };
 
-State.$injects = ['$localStorage'];
+State.$injects = ['$localStorage', '$location'];
 
 module.exports = State;

@@ -4,18 +4,19 @@
  */
 
 var puzzleUrl = require('./puzzle.tmpl.html');
+var boardActions = require('../modules/store/actions/actions-board');
 
 var toggle = function (elem, puzzle) {
 	'use strict';
 
-	var start = (puzzle.open) ? 0 : 180;
+	var start = (puzzle.open) ? 180 : 0;
 	var params = {duration: 250};
 
 	return velocity(elem, {
 		rotateY: [90, start]
 	}, params)
 		.then(function (el) {
-			angular.element(el).toggleClass(puzzle.classname, !puzzle.open);
+			angular.element(el).toggleClass(puzzle.classname, puzzle.open);
 
 			return velocity(el, {
 				rotateY: [180 - start, 90]
@@ -23,33 +24,28 @@ var toggle = function (elem, puzzle) {
 		});
 };
 
-app.directive('puzzle', [function () {
+app.directive('puzzle', ['AppStore', function (AppStore) {
 	'use strict';
 	return {
 		restrict: 'A',
 		replace: true,
 		templateUrl: puzzleUrl,
 		link: function (scope, $element, attrs) {
-			var puzzle = scope.puzzles[attrs.index];
+			if (scope.puzzles[attrs.index].open) {
+				toggle($element[0], scope.puzzles[attrs.index]);
+			}
 
-			scope.$watch('puzzles[$index].clicks', function (newVal, oldVal) {
-				if (oldVal === newVal) {
-					return;
+			scope.$watch('puzzle.open', function (newval, oldval) {
+				var puzzle = scope.puzzles[attrs.index];
+				if (newval !== oldval) {
+					toggle($element[0], puzzle).then(function () {
+						AppStore.dispatch(boardActions.checkBoard());
+					});
 				}
-				toggle($element[0], puzzle).then(function () {
-					scope.toggle(attrs.index);
-				});
 			});
 
 			$element.on('click', function () {
-				if (puzzle.open || puzzle.solved) {
-					return;
-				}
-
-				toggle($element[0], puzzle).then(function () {
-					scope.toggle(attrs.index);
-					scope.countClicks();
-				});
+				AppStore.dispatch(boardActions.clickPuzzle(attrs.index));
 			});
 		}
 	};

@@ -1,0 +1,14 @@
+<div class="main">
+	<div menu-button button-style="button-menu menu-width" ng-click="newGame()">Start new Game</div>
+	<div menu-button enable="{{dirty}}" button-style="button-menu menu-width" ng-disable="{{!dirty}}"
+			 ng-click="resumeGame()">Return to Game</div>
+	<div class="block menu-width">
+		<div class="block-title">Board sizes</div>
+		<div class="block-options">
+			<button ng-repeat="option in options track by $index"
+						ng-class="{'block-options-item-selected': option.active}"
+						ng-disabled="option.active" ng-click="setSize(option.name)"
+						class="block-options-item block-options-item-active">{{::option.name}}</button>
+		</div>
+	</div>
+</div>

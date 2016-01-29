@@ -1,5 +1,5 @@
-button-color-purple = #FF4081
-button-menu-size = 60px
+button-color-purple = #4aa1ef
+button-menu-size = 40px
 button-menu-raduis = 4px
 button-transition = all .2s ease-in-out
 
@@ -7,10 +7,13 @@ button-game-size = 30px
 button-game-radius = 3px
 
 .button
-	background: darken(button-color-purple, 30%)
-	box-shadow: 0 0 2px rgba(0, 0, 0, .12), 0 2px 2px rgba(0, 0, 0, .2)
-	color: #fff
-	font-size: 14px;
+	height: button-menu-size
+	border: none
+	outline: none
+	border-radius: button-menu-raduis
+	box-shadow: 0 0 2px rgba(0, 0, 0, .12), 0 2px 2px rgba(0, 0, 0, .2);
+	font-size: 14px
+	line-height: button-menu-size
 	cursor: pointer
 	transition: button-transition
 	user-select: none
@@ -20,26 +23,26 @@ button-game-radius = 3px
 		text-align: center
 		font-weight: 400
 
-	&-menu
-		height: button-menu-size
-		border-radius: button-menu-raduis
-		line-height: button-menu-size
+	&-enabled
+		background: darken(button-color-purple, 30%)
+		color: #fff
+
+		&:hover,
+		&:active
+			background-color: darken(button-color-purple, 20%)
 
 		&:active
 			box-shadow: inset 3px 3px 4px 1px rgba(0, 0, 0, 0.2)
 
+	&-disabled
+		background: #e1e1e1
+		color: #d1d1d1
+		//filter: blur(1px)
+
+	&-menu
+		margin: button-menu-size*0.25 0
+		border-radius: button-menu-raduis
+
 	&-game
-		height: button-game-size
-		border-radius: button-game-radius
-		line-height: button-game-size
-		width: 100%
 		margin-bottom: 12px
-
-		&:active
-			box-shadow: inset 2px 2px 4px 1px rgba(0, 0, 0, 0.2)
-
-	&:hover,
-	&:active
-		background-color: darken(button-color-purple, 20%)
-
-
+		width: 100%

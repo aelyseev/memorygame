@@ -3,18 +3,27 @@
  * @date 17/12/15
  */
 
-var app = require('../app');
 var url = require('./menu-button.tmpl.html');
 
-app.directive('menuButton', ['$location', function () {
+app.directive('menuButton', ['$timeout', function ($timeout) {
 	'use strict';
 
 	return {
 		restricts: 'A',
+		scope: true,
 		replace: true,
-		scope: {
-			buttonStyle: '@',
-			action: '='
+		link: function (scope, el, attrs) {
+			var key = 'enable';
+			var enableWatcher = function (v) {
+				scope[key] = (v === undefined) ? true : v;
+			};
+
+			scope.buttonStyle = attrs.buttonStyle;
+
+			scope.$watch(attrs.enable, enableWatcher);
+			attrs.$observe('enable', function (v) {
+				enableWatcher(scope.$eval(v));
+			});
 		},
 		transclude: true,
 		templateUrl: url

@@ -1,8 +1,8 @@
 <div>
 	<div class="board-game-menu" ng-style="{width: boardSize + 'px'}">
-		<div menu-button button-style="button-game" action="gotomenu">Main menu</div>
+		<div menu-button button-style="button-game" ng-click="gotomenu()">Main menu</div>
 		<div ng-if="!solved" class="board-game-menu-info">Clicks: {{clicks}}</div>
-		<div ng-if="solved" menu-button button-style="button-game" action="newgame">
+		<div ng-if="solved" menu-button button-style="button-game" ng-click="newgame()">
 			You won! Start a new game!
 		</div>
 	</div>

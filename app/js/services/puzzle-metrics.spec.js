@@ -12,7 +12,7 @@ describe('Service: Puzzle metrics', function () {
 
 	beforeEach(angular.mock.module(app.name));
 
-	it('Puzzle metrics define an object', $inject(function (puzzleMetrics) {
+	it('Puzzle metrics defines an object', $inject(function (puzzleMetrics) {
 		expect(puzzleMetrics).to.be.an('object');
 	}));
 });

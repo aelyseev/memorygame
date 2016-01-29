@@ -16,6 +16,9 @@ module.exports = function (route, action) {
 		case actions.GO_TO_MENU:
 			return '/';
 
+		case actions.GO_TO:
+			return action.route;
+
 		default:
 			return route || initialState.getDefaults().route;
 	}

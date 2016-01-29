@@ -3,66 +3,99 @@
  * @date 26/01/16
  */
 
-var actions = require('../actions/actions-common.js');
-var generatePuzzles = require('../generate-puzzles');
+var actions = require('../actions/');
+var startNewGame = require('../newgame-generator');
 var State = require('../initial-state');
 var initialState = new State();
 
 /**
- * @param {Object} current — current state
- * @returns {Number}
- */
-var getBoardSize = function (current) {
-	'use strict';
-
-	var filter = function (size) {
-		return size.active;
-	};
-
-	return parseInt(current.filter(filter).shift().name, 10);
-};
-
-/**
  * Returns a new board state configuration
- * @param {Array} sizes
+ * @param {Object} board
  * @param {String} name
  * @returns {Object}
  */
-var updateBoard = function (sizes, name) {
+var updateBoard = function (board, name) {
 	'use strict';
-
 	var isAnyActiveState = false;
-	var newSizes = sizes.map(function (size) {
+
+	var newOptions = board.options.map(function (size) {
 		isAnyActiveState = isAnyActiveState || (name === size.name);
 		return angular.extend({}, size, {active: name === size.name});
 	});
-	return (isAnyActiveState) ? newSizes : sizes.slice();
+
+	newOptions = (isAnyActiveState) ? newOptions : board.options.slice();
+
+	return startNewGame(angular.extend({}, board, {options: newOptions}));
+};
+
+var checkBoard = function (data) {
+	'use strict';
+	var pair;
+	var board = angular.extend({}, data);
+	var puzzles = board.puzzles;
+
+	if (board.queue.length < 2) {
+		return data;
+	}
+	pair = board.queue.splice(0, 2);
+
+	if (puzzles[pair[0]].pair === puzzles[pair[1]].index) {
+		puzzles[pair[0]].solved = puzzles[pair[1]].solved = true;
+	} else {
+		pair.forEach(function (index) {
+			puzzles[index].open = false;
+		});
+	}
+	board.solved = puzzles.every(function (puzzle) {
+		return puzzle.solved;
+	});
+	return board;
+};
+
+var click = function (data, index) {
+	'use strict';
+
+	var board = angular.extend({}, data);
+	var puzzle;
+	var open;
+
+	if (board.puzzles.length === 0) {
+		return data;
+	}
+	puzzle = board.puzzles[index];
+	open = puzzle.open;
+
+	puzzle.open = puzzle.solved || puzzle.open || !open;
+
+	if (puzzle.open && !open) {
+		board.queue.push(index);
+		board.clicks++;
+		board.dirty = true;
+		return board;
+	}
+
+	return data;
 };
 
 module.exports = function (board, action) {
 	'use strict';
 
-	/** @type Array */
-	var puzzles;
-
-	/** @type Number */
-	var boardSize;
-
-	var state = board || initialState.board;
+	var newBoard = board || initialState.getDefaults().board;
 
 	switch (action.type) {
 		case actions.SET_BOARD:
-			return angular.extend({}, board, {sizes: updateBoard(board.sizes, action.name)});
+			return updateBoard(newBoard, action.name);
 
-		case action.CLICK_PUZZLE:
-			return angular.extend({}, board, {clicks: board.clicks + 1});
+		case actions.CLICK_PUZZLE:
+			return click(newBoard, action.puzzle);
 
 		case actions.NEW_GAME:
-			boardSize = getBoardSize(board.sizes);
-			puzzles = generatePuzzles(boardSize, board.lastId);
-			return angular.extend({}, board, {puzzles: puzzles, lastID: puzzles.length + board.lastId});
+			return startNewGame(newBoard);
+
+		case actions.CHECK_BOARD:
+				return checkBoard(newBoard);
 
 		default:
-			return angular.extend({}, state);
+			return newBoard;
 	}
 };

@@ -11,6 +11,6 @@ module.exports = angular.module('game.store', ['ngStorage'])
 		'use strict';
 		$localStorageProvider.setKeyPrefix('game_');
 	}])
-	.service('State', State)
+	.service('InitialState', State)
 	.factory('AppStore', AppStore)
 	.name;

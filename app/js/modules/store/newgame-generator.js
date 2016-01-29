@@ -37,7 +37,6 @@ var generatePuzzles = function generator(styles, styleNames, boardSize, startId)
 		puzzle = {
 			solved: false,
 			clicks: 0,
-			rotate: 180,
 			classname: styles[iconName],
 			open: false
 		};
@@ -53,4 +52,27 @@ var generatePuzzles = function generator(styles, styleNames, boardSize, startId)
 	});
 };
 
-module.exports = angular.bind(this, generatePuzzles, puzzleStyles, puzzleStyleNames);
+/**
+ * @param {Object} options — current state
+ * @returns {Number}
+ */
+var getBoardSize = function (options) {
+	'use strict';
+
+	var filter = function (option) {
+		return option.active;
+	};
+
+	return parseInt(options.filter(filter).shift().name, 10);
+};
+
+module.exports = function (board) {
+	'use strict';
+	var boardSize = getBoardSize(board.options);
+
+	/** @type Array */
+	var puzzles = generatePuzzles(puzzleStyles, puzzleStyleNames, boardSize, board.lastId);
+
+	return angular.extend({}, board, {puzzles: puzzles, lastId: (puzzles.length + board.lastId) % 1000},
+		{solved: false, clicks: 0, queue: [], dirty: false});
+};

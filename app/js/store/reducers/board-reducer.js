@@ -3,10 +3,9 @@
  * @date 26/01/16
  */
 
-var actions = require('../actions/');
-var startNewGame = require('../newgame-generator');
-var State = require('../initial-state');
-var initialState = new State();
+var actions = require('../actions/actions.list');
+var startNewGame = require('../lib/newgame');
+var stateDefaults = require('../lib/defaults');
 
 /**
  * Returns a new board state configuration
@@ -80,7 +79,7 @@ var click = function (data, index) {
 module.exports = function (board, action) {
 	'use strict';
 
-	var newBoard = board || initialState.getDefaults().board;
+	var newBoard = board || stateDefaults.board;
 
 	switch (action.type) {
 		case actions.SET_BOARD:

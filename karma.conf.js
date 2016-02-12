@@ -39,10 +39,11 @@ module.exports = function (config) {
 
 		autoWatch: true,
 
-		webpack: require('./webpack.common.js')({TEST: true}),
+		webpack: require('./webpack.make.js')({TEST: true}),
 
 		webpackServer: {
-			noInfo: true
+			noInfo: true,
+			quiet: false
 		}
 	});
 };

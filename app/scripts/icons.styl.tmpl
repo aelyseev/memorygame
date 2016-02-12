@@ -1,46 +1,5 @@
 {{#each icons}}
 .{{this.style}}
-	animation: rotate ease-in-out, move{{@index}} steps(1);
-
+	background: #fff url("./icons/{{this.file}}") no-repeat center center
+	background-size: 60% 60%
 {{/each}}
-
-{{#each icons}}
-@keyframes move{{@index}} {
-	0% {
-		background: puzzle-color url("./pattern.svg") repeat
-	}
-	50% {
-		background: #fff url("./icons/{{this.file}}") no-repeat center center
-		background-size: 60% 60%
-	}
-	100% {
-		background: #fff url("./icons/{{this.file}}") no-repeat center center
-		background-size: 60% 60%
-	}
-}
-{{/each}}
-
-:global(.puzzle-animated)
-	animation-duration: 500ms;
-	animation-iteration-count: infinite;
-	animation-direction: alternate;
-	animation-fill-mode: both;
-
-:global(.puzzle-animated-delayed)
-	animation-delay: 200ms;
-
-:global(.puzzle-animated-paused)
-	animation-play-state: paused
-
-@keyframes rotate {
-	0% {
-		transform: rotate3d(0, 1, 0, 180deg)
-	}
-	50% {
-		transform: rotate3d(0, 1, 0, 90deg)
-	}
-	100% {
-			transform: rotate3d(0, 1, 0, 0deg)
-	}
-}
-

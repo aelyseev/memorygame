@@ -9,8 +9,6 @@ var autoprefixer = require('autoprefixer');
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var Clean = require('clean-webpack-plugin');
 var generateIcons = require('./app/scripts/icons');
 var assign = require('object-assign');
 
@@ -19,8 +17,8 @@ var appPackage = require('./package.json');
 module.exports = function (options) {
 	'use strict';
 
-	var BUILD = !!options.BUILD || false;
-	var PROD = !!options.PROD && BUILD;
+	var PROD = (options && options.PROD) || false;
+	var TEST = (options && options.TEST) || false;
 
 	var config = {
 		resolve: {
@@ -42,7 +40,7 @@ module.exports = function (options) {
 				{
 					test: /\.styl$/,
 					include: path.join(__dirname, 'app/images'),
-					loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[hash:base64:6]!postcss!stylus?resolve-url')
+					loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[local]-[hash:base64:6]!postcss!stylus?resolve-url')
 				},
 				{
 					test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
@@ -50,7 +48,6 @@ module.exports = function (options) {
 				},
 				{
 					test: /\.html$/,
-					include: [/js\/routes/, /js\/directives/],
 					loader: 'ngtemplate?relativeTo=' + __dirname + '!html?minimize=true'
 				}
 			],
@@ -78,41 +75,18 @@ module.exports = function (options) {
 		]
 	};
 
-	if (BUILD) { //build
-		config = assign({}, config, {
-			context: __dirname + '/app',
+	if (TEST && PROD) {
+		throw new Error('Running compilations with in TEST and PROD modes at the same time is incorrect');
+	}
 
-			entry: {
-				main: './main'
-			},
-			output: {
-				path: __dirname + '/public',
-				publicPath: '',
-				filename: '[name].js'
-			},
+	if (TEST) {
+		config = require('./webpack.test')(config);
+	} else {
+		// dev build
+		config = require('./webpack.dev')(config);
 
-			devtool: 'source-map',
-
-			devServer: {
-				host: 'localhost',
-				port: 8080,
-				hot: true,
-				contentBase: __dirname + '/public'
-			}
-		});
-
-		config.plugins.push(
-			new Clean(['public']),
-			new CopyWebpackPlugin([
-				{from: '../node_modules/angular/angular.js'},
-				{from: '../node_modules/angular-route/angular-route.js'},
-				{from: '../node_modules/ngstorage/ngstorage.js'},
-				{from: '../node_modules/velocity-animate/velocity.js'},
-				{from: './index.html'}
-			])
-		);
-
-		if (PROD) { //build and prod
+		// production build
+		if (PROD) {
 			config.plugins.push(
 				new webpack.optimize.UglifyJsPlugin({
 					compress: {
@@ -123,10 +97,6 @@ module.exports = function (options) {
 				})
 			);
 		}
-	} else {  // only test may be in this case
-		config = assign({}, config, {
-			devtool: 'inline-source-map'
-		});
 	}
 
 	generateIcons();

@@ -1,12 +1,12 @@
 <div>
-	<div class="board-game-menu" ng-style="{width: boardSize + 'px'}">
-		<div menu-button button-style="button-game" ng-click="gotomenu()">Main menu</div>
-		<div ng-if="!solved" class="board-game-menu-info">Clicks: {{clicks}}</div>
-		<div ng-if="solved" menu-button button-style="button-game" ng-click="newgame()">
+	<div class="board-game-menu" ng-style="{width: game.boardSize + 'px'}">
+		<div menu-button button-style="button-game" ng-click="game.gotoMenu()">Main menu</div>
+		<div ng-if="!game.solved" class="board-game-menu-info">Clicks: {{game.clicks}}</div>
+		<div ng-if="game.solved" menu-button button-style="button-game" ng-click="game.newGame()">
 			You won! Start a new game!
 		</div>
 	</div>
-	<div class="board" ng-style="{width: boardSize + 'px'}">
-		<div puzzle ng-repeat="puzzle in puzzles track by puzzle.id"></div>
+	<div class="board" ng-style="{width: game.boardSize + 'px'}">
+		<div puzzle ng-repeat="puzzle in game.puzzles track by puzzle.id"></div>
 	</div>
 </div>

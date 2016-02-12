@@ -2,9 +2,8 @@
  * @author aelyseev
  * @date 27/01/16
  */
-var actions = require('../actions');
-var State = require('../initial-state');
-var initialState = new State();
+var actions = require('../actions/actions.list');
+var stateDefaults = require('../lib/defaults');
 
 module.exports = function (route, action) {
 	'use strict';
@@ -20,6 +19,6 @@ module.exports = function (route, action) {
 			return action.route;
 
 		default:
-			return route || initialState.getDefaults().route;
+			return route || stateDefaults.route;
 	}
 };

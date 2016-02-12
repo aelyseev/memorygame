@@ -5,7 +5,7 @@
 
 var url = require('./menu-button.tmpl.html');
 
-app.directive('menuButton', ['$timeout', function ($timeout) {
+module.exports = function () {
 	'use strict';
 
 	return {
@@ -28,4 +28,4 @@ app.directive('menuButton', ['$timeout', function ($timeout) {
 		transclude: true,
 		templateUrl: url
 	};
-}]);
+};

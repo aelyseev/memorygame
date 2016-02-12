@@ -3,62 +3,61 @@
  * @date 01/02/16
  */
 
-var storeModule = require('./store.module');
+var storeModule = require('../store.module');
+var defaults = require('../lib/defaults');
 
-describe('Service: InitialState', function () {
+describe('Service: storeInitial', function () {
 	'use strict';
 
-	var State;
+	var stateInitial;
 
 	beforeEach(angular.mock.module(storeModule));
 
-	beforeEach(angular.mock.inject(function (_InitialState_, $localStorage) {
-		State = _InitialState_;
+	beforeEach(angular.mock.inject(function (_storeInitial_, $localStorage) {
+		stateInitial = _storeInitial_;
 		$localStorage.$reset();
 	}));
 
 	it('Service is defined', function () {
-		expect(State).to.be.an('object');
+		expect(stateInitial).to.be.an('object');
 	});
 
 	describe('Verify getInitialState structure', function () {
 		var state;
-		var defaults;
 
 		before(function () {
-			state = State.getInitialState();
-			defaults = State.getDefaults();
+			state = stateInitial.getInitialState();
 		});
 
-		it('Initial state is an object', function () {
+		it('state is an object', function () {
 			expect(state).to.be.an('object');
 		});
 
-		it('Initial state.route is a string', function () {
+		it('state.route is a string', function () {
 			expect(state.route).to.be.an('string');
 		});
 
-		it('Initial state.board is an object', function () {
+		it('state.board is an object', function () {
 			expect(state.board).to.be.an('object');
 		});
 
-		it('Initial state.board.options is an array', function () {
+		it('state.board.options is an array', function () {
 			expect(state.board.options).to.be.an('array');
 		});
 
-		it('Initial state.board.dirty is a boolean', function () {
+		it('state.board.dirty is a boolean', function () {
 			expect(state.board.dirty).to.be.a('boolean');
 		});
 
-		it('Initial state.board.options is an array', function () {
+		it('state.board.options is an array', function () {
 			expect(state.board.options).to.be.an('array');
 		});
 
-		it('Initial state.board.solved is a boolean', function () {
+		it('state.board.solved is a boolean', function () {
 			expect(state.board.solved).to.be.a('boolean');
 		});
 
-		it('Initial state.board.lastId is at least 1', function () {
+		it('state.board.lastId is at least 1', function () {
 			expect(defaults.board.lastId).to.equal(1);
 			expect(state.board.lastId).to.be.at.least(16);
 		});
@@ -67,7 +66,7 @@ describe('Service: InitialState', function () {
 			expect(state.board.clicks).to.be.at.least(0);
 		});
 
-		it('Initial state.board.puzzles is an array', function () {
+		it('state.board.puzzles is an array', function () {
 			expect(state.board.puzzles).to.be.an('array');
 			expect(state.board.puzzles.length).to.be.at.least(1);
 		});

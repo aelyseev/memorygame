@@ -11,28 +11,31 @@ describe('Controller: Game', function () {
 	'use strict';
 
 	var $controller;
-	var ctrl;
 	var scope;
+	var game;
 
 	beforeEach(angular.mock.module(app.name));
 
-	beforeEach(angular.mock.inject(function (_$controller_, _$rootScope_, _AppStore_) {
+	beforeEach(angular.mock.inject(function (_$controller_, _$rootScope_) {
 		scope = _$rootScope_.$new();
 		$controller = _$controller_;
-		ctrl = $controller('GameController', {$scope: scope});
+		game = $controller('GameController', {$scope: scope});
 	}));
 
-	it('Game Controller is defined and define some scope fields', function () {
-		expect(ctrl).to.be.a('object');
-		expect(scope.boardSize).to.be.a('number');
-		expect(scope.clicks).to.be.at.least(0);
+	it('Game Controller is defined', function () {
+		expect(game.boardSize).to.be.a('number');
+		expect(game.clicks).to.be.at.least(0);
+		expect(game.newGame).to.be.a('function');
+		expect(game.gotoMenu).to.be.a('function');
+
 		expect(scope.puzzleStyle).to.be.a('string');
-		expect(scope.gotomenu).to.be.a('function');
+		expect(scope.puzzleStyle).to.contains('width');
+		expect(scope.puzzleStyle).to.contains('height');
 	});
 
 	describe('GameController side effects', function () {
-		it('Controller doesn\'t affect on application state', angular.mock.inject(function ($rootScope, AppStore, _$controller_) {
-			var state = AppStore.getState();
+		it('Controller doesn\'t affect on application state', angular.mock.inject(function ($rootScope, storeState, _$controller_) {
+			var state = storeState.getState();
 			var $gameScope = $rootScope.$new();
 
 			deepFreeze(state);

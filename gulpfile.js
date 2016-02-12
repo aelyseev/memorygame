@@ -15,7 +15,7 @@ gulp.task('clean', function () {
 });
 
 gulp.task("webpack", ['clean'], function(callback) {
-	webpack(require('./webpack.common.js')({BUILD: true, PROD: true}), function(err, stats) {
+	webpack(require('./webpack.make.js')({PROD: true}), function(err, stats) {
 		if (err) {
 			throw new gutil.PluginError("webpack", err);
 		}

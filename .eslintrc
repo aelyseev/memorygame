@@ -13,7 +13,9 @@
 		"before": false,
 		"beforeEach": false,
 		"it": false,
-		"expect": false
+		"expect": false,
+		"VERSION": false,
+		"DEBUG": false
 	},
 
 	"rules": {

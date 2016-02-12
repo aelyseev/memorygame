@@ -5,7 +5,7 @@
 
 var context;
 
-require('../main');
+require('./app');
 
 context = require.context('./', true, /spec\.js$/);
 context.keys().forEach(context);

@@ -7,7 +7,7 @@
 /* eslint-disable */
 var fs = require('fs');
 var path = require('path');
-var tmpl = require('handlebars').compile(fs.readFileSync(__dirname + '/icons_images.styl.tmpl', 'utf8'));
+var tmpl = require('handlebars').compile(fs.readFileSync(__dirname + '/icons.styl.tmpl', 'utf8'));
 
 module.exports = function () {
 	var icons = fs.readdirSync(path.join(__dirname, '../images/icons')).filter(function (filename) {

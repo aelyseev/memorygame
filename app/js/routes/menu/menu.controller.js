@@ -3,42 +3,53 @@
  * @date 17/12/15
  */
 
-var commonActions = require('../../modules/store/actions/actions-common');
-var routeActions = require('../../modules/store/actions/actions-routes');
-var boardActions = require('../../modules/store/actions/actions-board');
+var MenuController = function (appState, actions) {
+	'use strict';
+	var t = this;
 
-// new button
-require('../../directives/menu-button');
+	this.appState = appState;
+	this.actions = actions;
 
-app.controller('MenuController', [
-	'$scope', '$location', 'settings', 'AppStore',
-	function ($scope, $location, Settings, AppStore) {
+	appState.subscribe(function () {
+		t._update();
+	});
+
+	this._update();
+};
+
+MenuController.prototype = {
+	appState: null,
+	actions: null,
+	dirty: null,
+	options: null,
+
+	_update: function () {
 		'use strict';
+		var state = this.appState.getState();
+		this.options = state.board.options;
+		this.dirty = state.board.dirty;
+	},
 
-		AppStore.subscribe(function () {
-			var state = AppStore.getState();
-			$scope.options = state.board.options;
-			$scope.dirty = state.board.dirty;
-		});
+	setSize: function (name) {
+		'use strict';
+		this.appState.dispatch(this.actions.setBoardSize(name));
+	},
 
-		$scope.test = function () {
-			console.log('test');
-		};
+	resumeGame: function () {
+		'use strict';
+		this.appState.dispatch(this.actions.toGame());
+	},
 
-		$scope.setSize = function (name) {
-			AppStore.dispatch(boardActions.setBoardSize(name));
-		};
+	newGame: function () {
+		'use strict';
+		if (this.appState.getState().board.solved) {
+			this.appState.dispatch(this.actions.newGame());
+		}
+		this.appState.dispatch(this.actions.toGame());
+	}
+};
 
-		$scope.newGame = function () {
-			if ($scope.dirty) {
-				AppStore.dispatch(boardActions.newGame());
-			}
-			AppStore.dispatch(routeActions.toGame());
-		};
+MenuController.$inject = ['storeState', 'storeActions'];
 
-		$scope.resumeGame = function () {
-			AppStore.dispatch(routeActions.toGame());
-		};
+module.exports = MenuController;
 
-		AppStore.dispatch(commonActions.nothing());
-	}]);

@@ -96,6 +96,7 @@ module.exports = function (options) {
 					}
 				})
 			);
+			delete config.devtool;
 		}
 	}
 

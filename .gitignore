@@ -4,4 +4,5 @@ node_modules/
 public/
 app/images/icons.styl
 app/images/icons.js
-.publish
+dist/
+.DS_Store

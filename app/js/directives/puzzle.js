@@ -3,8 +3,6 @@
  * @date 17/12/15
  */
 
-var puzzleUrl = require('./puzzle.tmpl.html');
-
 var toggle = function (elem, puzzle) {
 	'use strict';
 
@@ -30,10 +28,12 @@ var puzzleDirective = function (appState, actions) {
 	return {
 		restrict: 'A',
 		replace: true,
-		templateUrl: puzzleUrl,
+		template: '<div class="puzzle puzzle-close" data-index="{{::puzzle.index}}" style="{{::puzzleStyle}}"></div>',
 		link: function (scope, $element) {
 			var puzzle = scope.$eval('puzzle');
 			var index = scope.$eval('puzzle.index');
+
+			console.log(scope.puzzleStyle);
 
 			if (scope.$eval('puzzle.open')) {
 				toggle($element[0], puzzle);

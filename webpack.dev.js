@@ -1,13 +1,10 @@
-/**
- * @author aelyseev
- * @date 12/02/16
- */
-
-/* global __dirname */
-
-var assign = require('object-assign');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var Clean = require('clean-webpack-plugin');
+const assign = require('object-assign');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const Clean = require('clean-webpack-plugin');
+const path = require('path');
+const distPath = path.join(__dirname, 'public');
+const publicPath = '/';
+const port = 8888;
 
 module.exports = function (data) {
 	'use strict';
@@ -16,11 +13,11 @@ module.exports = function (data) {
 		context: __dirname + '/app',
 
 		entry: {
-			main: './js/app'
+			main: ['./js/app']
 		},
 		output: {
-			path: __dirname + '/public',
-			publicPath: '',
+			path: distPath,
+			publicPath,
 			filename: '[name].js'
 		},
 
@@ -28,9 +25,10 @@ module.exports = function (data) {
 
 		devServer: {
 			host: 'localhost',
-			port: 8080,
-			hot: true,
-			contentBase: __dirname + '/public'
+			contentBase: distPath,
+			publicPath,
+			port,
+			hot: true
 		}
 	});
 

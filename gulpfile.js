@@ -1,43 +1,57 @@
 /*eslint-disable*/
 
 var gulp = require('gulp');
+var series = require('run-sequence');
 var gutil = require("gulp-util");
-var webpack = require('webpack');
+var webpack = require('webpack-stream');
 var ghpages = require('gulp-gh-pages');
 var usemin = require('gulp-usemin');
 var uglify = require('gulp-uglify');
 var rev = require('gulp-rev');
-var ignore = require('gulp-ignore');
 var del = require('del');
+var karma = require('karma').Server;
+var dist = 'dist';
 
 gulp.task('clean', function () {
-	return del(['.publish']);
+	return del([dist]);
 });
 
-gulp.task("webpack", ['clean'], function(callback) {
-	webpack(require('./webpack.make.js')({PROD: true}), function(err, stats) {
-		if (err) {
-			throw new gutil.PluginError("webpack", err);
-		}
-		gutil.log("[webpack]", stats.toString());
-		callback();
-	});
+gulp.task('test', function r(done) {
+	new karma({
+		configFile: __dirname + '/karma.conf.js',
+		singleRun: true
+	}, done).start();
 });
 
-gulp.task('build', ['webpack'], function () {
-	return gulp.src('./public/index.html')
+gulp.task('webpack', function () {
+	return gulp.src('./app/js/app.js')
+		.pipe(webpack(require('./webpack.make.js')({ PROD: true })))
+		.pipe(gulp.dest(dist))
+});
+
+gulp.task('vendor', function () {
+	return vendor(`${dist}/index.html`)
+		.pipe(gulp.dest(dist));
+});
+
+gulp.task('publish', function () {
+	return vendor(`${dist}/index.html`)
+		.pipe(ghpages());
+});
+
+gulp.task('build', function () {
+	return series('test', 'clean', 'webpack', 'vendor');
+});
+
+gulp.task('deploy', function () {
+	return series('test', 'clean', 'webpack', 'publish');
+});
+
+function vendor(indexFile) {
+	return gulp.src(indexFile)
 		.pipe(usemin({
+			css: [rev],
 			js: [uglify, rev],
 			js2: [rev]
 		}))
-		.pipe(gulp.dest('./public'));
-});
-
-
-gulp.task('deploy', ['build'],function () {
-	return gulp.src('public/**/*')
-		.pipe(ignore('angular*'))
-		.pipe(ignore('ngstorage*'))
-		.pipe(ignore('main.js'))
-		.pipe(ghpages());
-});
+}
